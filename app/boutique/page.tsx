@@ -134,8 +134,8 @@ export default function BoutiquePage() {
               />
               <span className="ml-3 text-xl font-bold text-amber-800">Maison L'Orayane</span>
             </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
+            <div className="flex items-center">
+              <div className="ml-10 flex items-baseline space-x-4 hidden md:block">
                 <Link href="/" className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">
                   Accueil
                 </Link>
@@ -158,8 +158,6 @@ export default function BoutiquePage() {
                   Admin
                 </Link>
               </div>
-            </div>
-            <div className="flex items-center">
               <Button variant="outline" className="relative bg-transparent">
                 <ShoppingCart className="h-5 w-5" />
                 {getTotalItems() > 0 && (
