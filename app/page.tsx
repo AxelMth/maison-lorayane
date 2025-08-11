@@ -1,101 +1,160 @@
-import Image from "next/image";
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen">
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <Image
+                src="/logo-maison-lorayane.png"
+                alt="Maison L'Orayane"
+                width={60}
+                height={60}
+                className="rounded-full"
+              />
+              <span className="ml-3 text-xl font-bold text-amber-800">Maison L'Orayane</span>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-4">
+                <Link href="/" className="text-amber-800 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">
+                  Accueil
+                </Link>
+                <Link
+                  href="/histoire"
+                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Notre Histoire
+                </Link>
+                <Link
+                  href="/boutique"
+                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Boutique
+                </Link>
+                <Link
+                  href="/admin"
+                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Admin
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative h-96 bg-gradient-to-r from-amber-50 to-orange-100">
+        <div className="absolute inset-0">
           <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src="/french-bakery-interior.png"
+            alt="Boulangerie Maison L'Orayane"
+            fill
+            className="object-cover"
+            priority
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
+          <div className="text-white">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Maison L'Orayane</h1>
+            <p className="text-xl md:text-2xl mb-8 max-w-2xl">
+              L'art de la boulangerie française traditionnelle depuis des générations
+            </p>
+            <div className="space-x-4">
+              <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700">
+                <Link href="/boutique">Découvrir nos produits</Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="text-white border-white hover:bg-white hover:text-amber-800 bg-transparent"
+              >
+                <Link href="/histoire">Notre histoire</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Introduction */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L'Orayane</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+              Depuis plusieurs générations, notre famille perpétue la tradition de la boulangerie française. Chaque
+              jour, nous préparons avec passion des pains et pâtisseries artisanales, en utilisant uniquement les
+              meilleurs ingrédients et les techniques ancestrales.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="text-center">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🥖</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Pains Artisanaux</h3>
+                <p className="text-gray-600">
+                  Nos pains sont pétris et cuits selon les méthodes traditionnelles françaises
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🥐</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Viennoiseries</h3>
+                <p className="text-gray-600">Croissants, pains au chocolat et autres délices préparés chaque matin</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center">
+              <CardContent className="p-6">
+                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🎂</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Pâtisseries</h3>
+                <p className="text-gray-600">
+                  Des créations sucrées qui raviront vos papilles et égayeront vos événements
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-amber-800 text-white py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center mb-4 md:mb-0">
+              <Image
+                src="/logo-maison-lorayane.png"
+                alt="Maison L'Orayane"
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+              <span className="ml-3 text-lg font-semibold">Maison L'Orayane</span>
+            </div>
+            <div className="text-center md:text-right">
+              <p className="text-sm">© 2024 Maison L'Orayane. Tous droits réservés.</p>
+              <p className="text-sm mt-1">Boulangerie artisanale française</p>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
-  );
+  )
 }
