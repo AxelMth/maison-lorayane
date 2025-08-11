@@ -172,7 +172,7 @@ export default function AdminPage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Image
-                src="/logo-maison-lorayane.png"
+                src="/images/maison-lorayane.jpg"  
                 alt="Maison L'Orayane"
                 width={60}
                 height={60}
