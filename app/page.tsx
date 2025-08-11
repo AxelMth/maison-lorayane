@@ -12,7 +12,7 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Image
-                src="/assets/images/maison-lorayane.jpg"
+                src="/images/maison-lorayane.jpg"
                 alt="Maison L'Orayane"
                 width={60}
                 height={60}
@@ -140,7 +140,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-4 md:mb-0">
               <Image
-                src="/assets/images/maison-lorayane.jpg"
+                src="/images/maison-lorayane.jpg"
                 alt="Maison L'Orayane"
                 width={40}
                 height={40}

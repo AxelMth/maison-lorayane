@@ -126,7 +126,7 @@ export default function BoutiquePage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Image
-                src="/assets/images/maison-lorayane.jpg"
+                src="/images/maison-lorayane.jpg"
                 alt="Maison L'Orayane"
                 width={60}
                 height={60}
