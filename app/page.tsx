@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b">
+      <nav className="bg-primary text-primary-foreground shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -17,32 +17,22 @@ export default function HomePage() {
                 width={60}
                 height={60}
                 className="rounded-full"
-              />
-              <span className="ml-3 text-xl font-bold text-amber-800">Maison L'Orayane</span>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-amber-800 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">
-                  Accueil
-                </Link>
-                <Link
-                  href="/histoire"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Notre Histoire
-                </Link>
-                <Link
-                  href="/boutique"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Boutique
-                </Link>
-                <Link
-                  href="/admin"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Admin
-                </Link>
+              />              <span className="ml-3 text-xl font-bold text-primary-foreground">Maison L'Orayane</span>
+              </div>
+              <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-4">
+                  <Link href="/" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                    Accueil
+                  </Link>
+                  <Link href="/histoire" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                    Notre Histoire
+                  </Link>
+                  <Link href="/boutique" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                    Boutique
+                  </Link>
+                  <Link href="/admin" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                    Admin
+                  </Link>
               </div>
             </div>
           </div>

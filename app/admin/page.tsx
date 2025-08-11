@@ -167,7 +167,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Admin */}
-      <nav className="bg-white shadow-sm border-b">
+      <nav className="bg-primary text-primary-foreground shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -178,10 +178,10 @@ export default function AdminPage() {
                 height={60}
                 className="rounded-full"
               />
-              <span className="ml-3 text-xl font-bold text-amber-800">Admin - Maison L'Orayane</span>
+              <span className="ml-3 text-xl font-bold text-primary-foreground">Admin - Maison L'Orayane</span>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/" className="text-gray-700 hover:text-amber-600">
+              <Link href="/" className="hover:opacity-90">
                 Voir le site
               </Link>
               <Button variant="outline" onClick={() => setIsAuthenticated(false)}>
