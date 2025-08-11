@@ -15,7 +15,7 @@ export default function HomePage() {
                 src="/images/maison-lorayane.jpg"
                 alt="Maison L'Orayane"
                 width={60}
-                height={60}
+                height={100}
                 className="rounded-full"
               />              <span className="ml-3 text-xl font-bold text-primary-foreground">Maison L'Orayane</span>
               </div>
@@ -43,13 +43,12 @@ export default function HomePage() {
       <section className="relative h-96 bg-gradient-to-r from-amber-50 to-orange-100">
         <div className="absolute inset-0">
           <Image
-            src="/french-bakery-interior.png"
+            src="/images/banner.jpg"
             alt="Boulangerie Maison L'Orayane"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="text-white">
