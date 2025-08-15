@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -18,68 +18,34 @@ interface Product {
   active: boolean
 }
 
-// Données d'exemple - à remplacer par l'API Supabase
-const sampleProducts: Product[] = [
-  {
-    id: "1",
-    name: "Baguette Tradition",
-    description: "Notre baguette emblématique, croustillante à l'extérieur et moelleuse à l'intérieur",
-    price: 1.2,
-    image: "/images/french-baguette.png",
-    category: "Pains",
-    active: true,
-  },
-  {
-    id: "2",
-    name: "Croissant au Beurre",
-    description: "Croissant feuilleté au beurre français, cuit chaque matin",
-    price: 1.5,
-    image: "/images/french-butter-croissant.png",
-    category: "Viennoiseries",
-    active: true,
-  },
-  {
-    id: "3",
-    name: "Pain au Chocolat",
-    description: "Viennoiserie feuilletée avec deux barres de chocolat noir",
-    price: 1.6,
-    image: "/images/placeholder-uk4bv.jpg",
-    category: "Viennoiseries",
-    active: true,
-  },
-  {
-    id: "4",
-    name: "Tarte aux Fruits",
-    description: "Tarte saisonnière aux fruits frais sur pâte sablée",
-    price: 18.0,
-    image: "/images/french-fruit-tart.png",
-    category: "Pâtisseries",
-    active: true,
-  },
-  {
-    id: "5",
-    name: "Éclair au Chocolat",
-    description: "Pâte à choux garnie de crème pâtissière et glaçage chocolat",
-    price: 3.5,
-    image: "/images/french-chocolate-eclair.png",
-    category: "Pâtisseries",
-    active: true,
-  },
-  {
-    id: "6",
-    name: "Pain de Campagne",
-    description: "Pain rustique au levain, parfait pour accompagner vos repas",
-    price: 2.8,
-    image: "/images/placeholder-97aus.jpg",
-    category: "Pains",
-    active: true,
-  },
-]
-
 export default function BoutiquePage() {
-  const [products, setProducts] = useState<Product[]>(sampleProducts)
+  const [products, setProducts] = useState<Product[]>([])
   const [cart, setCart] = useState<{ [key: string]: number }>({})
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous")
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/products", { cache: "no-store" })
+        if (!res.ok) throw new Error("Erreur lors du chargement des produits")
+        const data = await res.json()
+        const mapped: Product[] = (data || []).map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description || "",
+          price: typeof p.price === "string" ? parseFloat(p.price) : p.price,
+          image: p.image_url || "/placeholder.svg",
+          category: p.category,
+          active: !!p.active,
+        }))
+        setProducts(mapped)
+      } catch (e) {
+        console.error(e)
+        setProducts([])
+      }
+    }
+    fetchProducts()
+  }, [])
 
   const categories = ["Tous", "Pains", "Viennoiseries", "Pâtisseries"]
 
