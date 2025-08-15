@@ -151,7 +151,7 @@ export default function BoutiquePage() {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className={selectedCategory === category ? "bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" : ""}
+                className={selectedCategory === category ? "bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" : "hover:cursor-pointer hover:bg-amber-600 hover:text-white"}
               >
                 {category}
               </Button>
