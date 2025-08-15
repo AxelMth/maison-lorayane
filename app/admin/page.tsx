@@ -221,7 +221,7 @@ export default function AdminPage() {
   
   const handleLogin = () => {
     // Mot de passe simple pour la démo - à remplacer par une vraie authentification
-    if (password === "admin123") {
+    if (password === "agGt%tTEKe8X9y*yamm5bn5uah*BSPm@LsrgiQAg*JkdsSXnuYZ!fLf5ZnMvDBzp3Ttt^9uWe3SLz!h9auXw8K#*t*k2si523G$J") {
       setIsAuthenticated(true)
     } else {
       alert("Mot de passe incorrect")
