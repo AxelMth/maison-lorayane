@@ -30,9 +30,6 @@ export default function HomePage() {
                   <Link href="/boutique" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
                     Boutique
                   </Link>
-                  <Link href="/admin" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
-                    Admin
-                  </Link>
               </div>
             </div>
           </div>

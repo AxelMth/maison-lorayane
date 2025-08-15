@@ -37,12 +37,6 @@ export default function HistoirePage() {
                 >
                   Boutique
                 </Link>
-                <Link
-                  href="/admin"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Admin
-                </Link>
               </div>
             </div>
           </div>
