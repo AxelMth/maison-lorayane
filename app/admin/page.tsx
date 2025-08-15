@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Edit, Trash2, Eye, Package, ShoppingCart } from "lucide-react"
+import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2 } from "lucide-react"
 interface Product {
   id: string
   name: string
@@ -35,46 +35,6 @@ interface Order {
   date: string
 }
 
-// Données d'exemple
-const sampleProducts: Product[] = [
-  {
-    id: "1",
-    name: "Baguette Tradition",
-    description: "Notre baguette emblématique",
-    price: 1.2,
-    image: "/french-baguette.png",
-    category: "Pains",
-    active: true,
-    startDate: "2024-01-01",
-    endDate: "2024-12-31",
-  },
-  {
-    id: "2",
-    name: "Croissant au Beurre",
-    description: "Croissant feuilleté au beurre français",
-    price: 1.5,
-    image: "/placeholder.svg?height=200&width=300",
-    category: "Viennoiseries",
-    active: true,
-    startDate: "2024-01-01",
-    endDate: "2024-12-31",
-  },
-]
-
-const sampleOrders: Order[] = [
-  {
-    id: "1",
-    customerName: "Marie Dubois",
-    customerEmail: "marie.dubois@email.com",
-    items: [
-      { productId: "1", productName: "Baguette Tradition", quantity: 2, price: 1.2 },
-      { productId: "2", productName: "Croissant au Beurre", quantity: 3, price: 1.5 },
-    ],
-    total: 6.9,
-    status: "En préparation",
-    date: "2024-01-15",
-  },
-]
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
@@ -82,6 +42,12 @@ export default function AdminPage() {
   const [orders, setOrders] = useState<Order[]>([])
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -95,8 +61,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (!isAuthenticated) return
-
+  
     const load = async () => {
+      setIsLoading(true)
       try {
         const [prodRes, ordRes] = await Promise.all([
           fetch("/api/products?all=1", { cache: "no-store" }),
@@ -104,9 +71,9 @@ export default function AdminPage() {
         ])
         if (!prodRes.ok) throw new Error("Produits: échec du chargement")
         if (!ordRes.ok) throw new Error("Commandes: échec du chargement")
-
+  
         const [prodData, ordData] = await Promise.all([prodRes.json(), ordRes.json()])
-
+  
         const mappedProducts: Product[] = (prodData || []).map((p: any) => ({
           id: p.id,
           name: p.name,
@@ -118,7 +85,7 @@ export default function AdminPage() {
           startDate: p.start_date || "",
           endDate: p.end_date || "",
         }))
-
+  
         const mappedOrders: Order[] = (ordData || []).map((o: any) => ({
           id: o.id,
           customerName: o.customer_name,
@@ -133,19 +100,22 @@ export default function AdminPage() {
           status: o.status,
           date: o.created_at ? new Date(o.created_at).toISOString().split("T")[0] : "",
         }))
-
+  
         setProducts(mappedProducts)
         setOrders(mappedOrders)
       } catch (e) {
         console.error(e)
+      } finally {
+        setIsLoading(false)
       }
     }
-
+  
     load()
   }, [isAuthenticated])
 
   const handleAddProduct = async () => {
     try {
+      setIsCreating(true)
       const res = await fetch("/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -178,12 +148,15 @@ export default function AdminPage() {
     } catch (e) {
       console.error(e)
       alert("Erreur lors de la création du produit")
+    } finally {
+      setIsCreating(false)
     }
   }
 
   const handleUpdateProduct = async () => {
     if (!editingProduct) return
     try {
+      setIsUpdating(true)
       const res = await fetch(`/api/products/${editingProduct.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -216,9 +189,11 @@ export default function AdminPage() {
     } catch (e) {
       console.error(e)
       alert("Erreur lors de la mise à jour du produit")
+    } finally {
+      setIsUpdating(false)
     }
   }
-  
+
   const handleLogin = () => {
     // Mot de passe simple pour la démo - à remplacer par une vraie authentification
     if (password === "agGt%tTEKe8X9y*yamm5bn5uah*BSPm@LsrgiQAg*JkdsSXnuYZ!fLf5ZnMvDBzp3Ttt^9uWe3SLz!h9auXw8K#*t*k2si523G$J") {
@@ -227,16 +202,20 @@ export default function AdminPage() {
       alert("Mot de passe incorrect")
     }
   }
+
   const handleDeleteProduct = async (id: string) => {
     const previous = products
     setProducts(products.filter((p) => p.id !== id))
     try {
+      setDeletingId(id)
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" })
       if (!res.ok) throw new Error("Échec de la suppression")
     } catch (e) {
       console.error(e)
       setProducts(previous)
       alert("Erreur lors de la suppression du produit")
+    } finally {
+      setDeletingId(null)
     }
   }
 
@@ -246,6 +225,7 @@ export default function AdminPage() {
     const nextActive = !current.active
     setProducts(products.map((p) => (p.id === id ? { ...p, active: nextActive } : p)))
     try {
+      setTogglingId(id)
       const res = await fetch(`/api/products/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -256,6 +236,8 @@ export default function AdminPage() {
       console.error(e)
       setProducts(products.map((p) => (p.id === id ? { ...p, active: !nextActive } : p)))
       alert("Erreur lors de la mise à jour du statut")
+    } finally {
+      setTogglingId(null)
     }
   }
 
@@ -472,7 +454,8 @@ export default function AdminPage() {
                     <Button variant="outline" onClick={() => setIsAddingProduct(false)}>
                       Annuler
                     </Button>
-                    <Button onClick={handleAddProduct} className="bg-amber-600 hover:bg-amber-700">
+                    <Button onClick={handleAddProduct} disabled={isCreating} className="bg-amber-600 hover:bg-amber-700">
+                      {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                       Ajouter le produit
                     </Button>
                   </div>
@@ -567,7 +550,8 @@ export default function AdminPage() {
                     <Button variant="outline" onClick={() => setEditingProduct(null)}>
                       Annuler
                     </Button>
-                    <Button onClick={handleUpdateProduct} className="bg-amber-600 hover:bg-amber-700">
+                    <Button onClick={handleUpdateProduct} disabled={isUpdating} className="bg-amber-600 hover:bg-amber-700">
+                      {isUpdating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                       Enregistrer
                     </Button>
                   </div>
@@ -576,7 +560,12 @@ export default function AdminPage() {
             </div>
 
             <div className="grid gap-4">
-              {products.map((product) => (
+              {isLoading ? (
+                <div className="flex justify-center items-center h-full">
+                  <Loader2 className="h-8 w-8 animate-spin text-gray-600" />
+                </div>
+              ) : (
+                products.map((product) => (
                 <Card key={product.id}>
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
@@ -604,20 +593,35 @@ export default function AdminPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => toggleProductStatus(product.id)}>
-                          <Eye className="h-4 w-4" />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => toggleProductStatus(product.id)}
+                          disabled={togglingId === product.id || deletingId === product.id}
+                        >
+                          {togglingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => setEditingProduct(product)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setEditingProduct(product)}
+                          disabled={togglingId === product.id || deletingId === product.id}
+                        >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => handleDeleteProduct(product.id)}>
-                          <Trash2 className="h-4 w-4" />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDeleteProduct(product.id)}
+                          disabled={deletingId === product.id || togglingId === product.id}
+                        >
+                          {deletingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                         </Button>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+              )))}
             </div>
           </TabsContent>
 
