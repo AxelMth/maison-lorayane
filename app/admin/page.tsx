@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2 } from "lucide-react"
+import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2, EyeOff } from "lucide-react"
 interface Product {
   id: string
   name: string
@@ -600,7 +600,7 @@ export default function AdminPage() {
                           disabled={togglingId === product.id || deletingId === product.id}
                           className="hover:cursor-pointer hover:bg-amber-600 hover:text-white"
                         >
-                          {togglingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
+                          {togglingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : product.active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                         </Button>
                         <Button
                           variant="outline"
