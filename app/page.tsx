@@ -57,7 +57,7 @@ export default function HomePage() {
               L'art de la boulangerie française traditionnelle depuis des générations
             </p>
             <div className="space-x-4">
-              <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700">
+              <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
                 <Link href="/boutique">Découvrir nos produits</Link>
               </Button>
               <Button

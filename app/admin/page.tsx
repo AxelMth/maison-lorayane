@@ -259,7 +259,7 @@ export default function AdminPage() {
                 onKeyPress={(e) => e.key === "Enter" && handleLogin()}
               />
             </div>
-            <Button onClick={handleLogin} className="w-full bg-amber-600 hover:bg-amber-700">
+            <Button onClick={handleLogin} className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
               Se connecter
             </Button>
             <div className="text-center">
@@ -369,7 +369,7 @@ export default function AdminPage() {
               <h2 className="text-2xl font-bold">Gestion des produits</h2>
               <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
                 <DialogTrigger asChild>
-                  <Button className="bg-amber-600 hover:bg-amber-700">
+                  <Button className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer text-white hover:cursor-pointer">
                     <Plus className="h-4 w-4 mr-2" />
                     Ajouter un produit
                   </Button>
@@ -451,10 +451,10 @@ export default function AdminPage() {
                     </div>
                   </div>
                   <div className="flex justify-end space-x-2">
-                    <Button variant="outline" onClick={() => setIsAddingProduct(false)}>
+                    <Button variant="outline" onClick={() => setIsAddingProduct(false)} className="hover:cursor-pointer">
                       Annuler
                     </Button>
-                    <Button onClick={handleAddProduct} disabled={isCreating} className="bg-amber-600 hover:bg-amber-700">
+                    <Button onClick={handleAddProduct} disabled={isCreating} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
                       {isCreating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                       Ajouter le produit
                     </Button>
@@ -547,10 +547,10 @@ export default function AdminPage() {
                     </div>
                   )}
                   <div className="flex justify-end space-x-2">
-                    <Button variant="outline" onClick={() => setEditingProduct(null)}>
+                    <Button variant="outline" onClick={() => setEditingProduct(null)} className="hover:cursor-pointer">
                       Annuler
                     </Button>
-                    <Button onClick={handleUpdateProduct} disabled={isUpdating} className="bg-amber-600 hover:bg-amber-700">
+                    <Button onClick={handleUpdateProduct} disabled={isUpdating} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
                       {isUpdating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                       Enregistrer
                     </Button>
@@ -598,6 +598,7 @@ export default function AdminPage() {
                           size="sm"
                           onClick={() => toggleProductStatus(product.id)}
                           disabled={togglingId === product.id || deletingId === product.id}
+                          className="hover:cursor-pointer hover:bg-amber-600 hover:text-white"
                         >
                           {togglingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Eye className="h-4 w-4" />}
                         </Button>
@@ -606,6 +607,7 @@ export default function AdminPage() {
                           size="sm"
                           onClick={() => setEditingProduct(product)}
                           disabled={togglingId === product.id || deletingId === product.id}
+                          className="hover:cursor-pointer hover:bg-amber-600 hover:text-white"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -614,6 +616,7 @@ export default function AdminPage() {
                           size="sm"
                           onClick={() => handleDeleteProduct(product.id)}
                           disabled={deletingId === product.id || togglingId === product.id}
+                          className="hover:cursor-pointer hover:bg-amber-600 hover:text-white"
                         >
                           {deletingId === product.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                         </Button>

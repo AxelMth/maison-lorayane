@@ -151,7 +151,7 @@ export default function BoutiquePage() {
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
                 onClick={() => setSelectedCategory(category)}
-                className={selectedCategory === category ? "bg-amber-600 hover:bg-amber-700" : ""}
+                className={selectedCategory === category ? "bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" : ""}
               >
                 {category}
               </Button>
@@ -168,7 +168,7 @@ export default function BoutiquePage() {
                   <span className="font-semibold">Panier: {getTotalItems()} article(s)</span>
                   <span className="ml-4 text-lg font-bold text-amber-600">{getTotalPrice().toFixed(2)} €</span>
                 </div>
-                <Button className="bg-amber-600 hover:bg-amber-700">Passer commande</Button>
+                <Button className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">Passer commande</Button>
               </div>
             </CardContent>
           </Card>
@@ -206,7 +206,7 @@ export default function BoutiquePage() {
                     </span>
                   </div>
                 ) : (
-                  <Button className="w-full bg-amber-600 hover:bg-amber-700" onClick={() => addToCart(product.id)}>
+                  <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" onClick={() => addToCart(product.id)}>
                     Ajouter au panier
                   </Button>
                 )}
