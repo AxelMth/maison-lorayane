@@ -13,7 +13,6 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Plus, Edit, Trash2, Eye, Package, ShoppingCart } from "lucide-react"
-
 interface Product {
   id: string
   name: string
@@ -76,7 +75,6 @@ const sampleOrders: Order[] = [
     date: "2024-01-15",
   },
 ]
-
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
@@ -146,24 +144,79 @@ export default function AdminPage() {
     load()
   }, [isAuthenticated])
 
-  const handleAddProduct = () => {
-    const product: Product = {
-      id: Date.now().toString(),
-      ...newProduct,
-      active: true,
-      image: newProduct.image || "/placeholder.svg?height=200&width=300",
+  const handleAddProduct = async () => {
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newProduct.name,
+          description: newProduct.description,
+          price: newProduct.price,
+          category: newProduct.category,
+          start_date: newProduct.startDate,
+          end_date: newProduct.endDate,
+          image_url: newProduct.image || "/placeholder.svg?height=200&width=300",
+        }),
+      })
+      if (!res.ok) throw new Error("Échec de la création")
+      const created = await res.json()
+      const mapped: Product = {
+        id: created.id,
+        name: created.name,
+        description: created.description || "",
+        price: typeof created.price === "string" ? parseFloat(created.price) : created.price,
+        image: created.image_url || "/placeholder.svg",
+        category: created.category,
+        active: !!created.active,
+        startDate: created.start_date || "",
+        endDate: created.end_date || "",
+      }
+      setProducts((prev) => [...prev, mapped])
+      setNewProduct({ name: "", description: "", price: 0, category: "", startDate: "", endDate: "", image: "" })
+      setIsAddingProduct(false)
+    } catch (e) {
+      console.error(e)
+      alert("Erreur lors de la création du produit")
     }
-    setProducts([...products, product])
-    setNewProduct({
-      name: "",
-      description: "",
-      price: 0,
-      category: "",
-      startDate: "",
-      endDate: "",
-      image: "",
-    })
-    setIsAddingProduct(false)
+  }
+
+  const handleUpdateProduct = async () => {
+    if (!editingProduct) return
+    try {
+      const res = await fetch(`/api/products/${editingProduct.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: editingProduct.name,
+          description: editingProduct.description,
+          price: editingProduct.price,
+          category: editingProduct.category,
+          start_date: editingProduct.startDate,
+          end_date: editingProduct.endDate,
+          image_url: editingProduct.image || "/placeholder.svg?height=200&width=300",
+          active: editingProduct.active,
+        }),
+      })
+      if (!res.ok) throw new Error("Échec de la mise à jour")
+      const updated = await res.json()
+      const mapped: Product = {
+        id: updated.id,
+        name: updated.name,
+        description: updated.description || "",
+        price: typeof updated.price === "string" ? parseFloat(updated.price) : updated.price,
+        image: updated.image_url || "/placeholder.svg",
+        category: updated.category,
+        active: !!updated.active,
+        startDate: updated.start_date || "",
+        endDate: updated.end_date || "",
+      }
+      setProducts((prev) => prev.map((p) => (p.id === mapped.id ? mapped : p)))
+      setEditingProduct(null)
+    } catch (e) {
+      console.error(e)
+      alert("Erreur lors de la mise à jour du produit")
+    }
   }
   
   const handleLogin = () => {
@@ -174,13 +227,36 @@ export default function AdminPage() {
       alert("Mot de passe incorrect")
     }
   }
-
-  const handleDeleteProduct = (id: string) => {
+  const handleDeleteProduct = async (id: string) => {
+    const previous = products
     setProducts(products.filter((p) => p.id !== id))
+    try {
+      const res = await fetch(`/api/products/${id}`, { method: "DELETE" })
+      if (!res.ok) throw new Error("Échec de la suppression")
+    } catch (e) {
+      console.error(e)
+      setProducts(previous)
+      alert("Erreur lors de la suppression du produit")
+    }
   }
 
-  const toggleProductStatus = (id: string) => {
-    setProducts(products.map((p) => (p.id === id ? { ...p, active: !p.active } : p)))
+  const toggleProductStatus = async (id: string) => {
+    const current = products.find((p) => p.id === id)
+    if (!current) return
+    const nextActive = !current.active
+    setProducts(products.map((p) => (p.id === id ? { ...p, active: nextActive } : p)))
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ active: nextActive }),
+      })
+      if (!res.ok) throw new Error("Échec de la mise à jour du statut")
+    } catch (e) {
+      console.error(e)
+      setProducts(products.map((p) => (p.id === id ? { ...p, active: !nextActive } : p)))
+      alert("Erreur lors de la mise à jour du statut")
+    }
   }
 
   if (!isAuthenticated) {
@@ -402,6 +478,101 @@ export default function AdminPage() {
                   </div>
                 </DialogContent>
               </Dialog>
+
+              <Dialog open={!!editingProduct} onOpenChange={(open) => !open && setEditingProduct(null)}>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Modifier le produit</DialogTitle>
+                  </DialogHeader>
+                  {editingProduct && (
+                    <div className="grid gap-4 py-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="edit-name">Nom du produit</Label>
+                          <Input
+                            id="edit-name"
+                            value={editingProduct.name}
+                            onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="edit-price">Prix (€)</Label>
+                          <Input
+                            id="edit-price"
+                            type="number"
+                            step="0.01"
+                            value={editingProduct.price}
+                            onChange={(e) =>
+                              setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) || 0 })
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-description">Description</Label>
+                        <Textarea
+                          id="edit-description"
+                          value={editingProduct.description}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-category">Catégorie</Label>
+                        <Select
+                          value={editingProduct.category}
+                          onValueChange={(value) => setEditingProduct({ ...editingProduct, category: value })}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Sélectionner une catégorie" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Pains">Pains</SelectItem>
+                            <SelectItem value="Viennoiseries">Viennoiseries</SelectItem>
+                            <SelectItem value="Pâtisseries">Pâtisseries</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="edit-startDate">Date de début</Label>
+                          <Input
+                            id="edit-startDate"
+                            type="date"
+                            value={editingProduct.startDate}
+                            onChange={(e) => setEditingProduct({ ...editingProduct, startDate: e.target.value })}
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="edit-endDate">Date de fin</Label>
+                          <Input
+                            id="edit-endDate"
+                            type="date"
+                            value={editingProduct.endDate}
+                            onChange={(e) => setEditingProduct({ ...editingProduct, endDate: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="edit-image">URL de l'image (optionnel)</Label>
+                        <Input
+                          id="edit-image"
+                          value={editingProduct.image}
+                          onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value })}
+                          placeholder="https://exemple.com/image.jpg"
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex justify-end space-x-2">
+                    <Button variant="outline" onClick={() => setEditingProduct(null)}>
+                      Annuler
+                    </Button>
+                    <Button onClick={handleUpdateProduct} className="bg-amber-600 hover:bg-amber-700">
+                      Enregistrer
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className="grid gap-4">
@@ -436,7 +607,7 @@ export default function AdminPage() {
                         <Button variant="outline" size="sm" onClick={() => toggleProductStatus(product.id)}>
                           <Eye className="h-4 w-4" />
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" onClick={() => setEditingProduct(product)}>
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button variant="outline" size="sm" onClick={() => handleDeleteProduct(product.id)}>
