@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -80,8 +80,8 @@ const sampleOrders: Order[] = [
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState("")
-  const [products, setProducts] = useState<Product[]>(sampleProducts)
-  const [orders, setOrders] = useState<Order[]>(sampleOrders)
+  const [products, setProducts] = useState<Product[]>([])
+  const [orders, setOrders] = useState<Order[]>([])
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
@@ -95,14 +95,56 @@ export default function AdminPage() {
     image: "",
   })
 
-  const handleLogin = () => {
-    // Mot de passe simple pour la démo - à remplacer par une vraie authentification
-    if (password === "admin123") {
-      setIsAuthenticated(true)
-    } else {
-      alert("Mot de passe incorrect")
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const load = async () => {
+      try {
+        const [prodRes, ordRes] = await Promise.all([
+          fetch("/api/products?all=1", { cache: "no-store" }),
+          fetch("/api/orders", { cache: "no-store" }),
+        ])
+        if (!prodRes.ok) throw new Error("Produits: échec du chargement")
+        if (!ordRes.ok) throw new Error("Commandes: échec du chargement")
+
+        const [prodData, ordData] = await Promise.all([prodRes.json(), ordRes.json()])
+
+        const mappedProducts: Product[] = (prodData || []).map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          description: p.description || "",
+          price: typeof p.price === "string" ? parseFloat(p.price) : p.price,
+          image: p.image_url || "/placeholder.svg",
+          category: p.category,
+          active: !!p.active,
+          startDate: p.start_date || "",
+          endDate: p.end_date || "",
+        }))
+
+        const mappedOrders: Order[] = (ordData || []).map((o: any) => ({
+          id: o.id,
+          customerName: o.customer_name,
+          customerEmail: o.customer_email,
+          items: (o.order_items || []).map((oi: any) => ({
+            productId: oi.product_id || "",
+            productName: oi.product_name,
+            quantity: oi.quantity,
+            price: typeof oi.product_price === "string" ? parseFloat(oi.product_price) : oi.product_price,
+          })),
+          total: typeof o.total_amount === "string" ? parseFloat(o.total_amount) : o.total_amount,
+          status: o.status,
+          date: o.created_at ? new Date(o.created_at).toISOString().split("T")[0] : "",
+        }))
+
+        setProducts(mappedProducts)
+        setOrders(mappedOrders)
+      } catch (e) {
+        console.error(e)
+      }
     }
-  }
+
+    load()
+  }, [isAuthenticated])
 
   const handleAddProduct = () => {
     const product: Product = {
@@ -122,6 +164,15 @@ export default function AdminPage() {
       image: "",
     })
     setIsAddingProduct(false)
+  }
+  
+  const handleLogin = () => {
+    // Mot de passe simple pour la démo - à remplacer par une vraie authentification
+    if (password === "admin123") {
+      setIsAuthenticated(true)
+    } else {
+      alert("Mot de passe incorrect")
+    }
   }
 
   const handleDeleteProduct = (id: string) => {

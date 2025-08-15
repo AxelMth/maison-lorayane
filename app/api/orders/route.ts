@@ -9,6 +9,7 @@ export async function GET() {
         *,
         order_items (
           id,
+          product_id,
           product_name,
           product_price,
           quantity,

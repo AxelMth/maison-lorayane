@@ -1,8 +1,26 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const url = new URL(request.url)
+    const all = url.searchParams.get("all")
+
+    if (all) {
+      const { data: products, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("category", { ascending: true })
+        .order("name", { ascending: true })
+
+      if (error) {
+        console.error("Erreur lors de la récupération des produits:", error)
+        return NextResponse.json({ error: "Erreur serveur" }, { status: 500 })
+      }
+
+      return NextResponse.json(products)
+    }
+
     const { data: products, error } = await supabase
       .from("products")
       .select("*")
