@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     const { amount, currency = "eur", metadata, order, items } = await request.json()
 
     const createdOrder = await createOrder(order, items)
+    
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Stripe utilise les centimes
       currency,
