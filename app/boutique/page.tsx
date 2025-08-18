@@ -7,9 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Minus } from "lucide-react"
 import Nav from "@/components/nav"
-import { loadStripe } from "@stripe/stripe-js"
-import { Elements } from "@stripe/react-stripe-js"
-import CheckoutForm from "@/components/checkout-form"
+import { useRouter } from "next/navigation"
 
 interface Product {
   id: string
@@ -21,14 +19,12 @@ interface Product {
   active: boolean
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
-
 export default function BoutiquePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [cart, setCart] = useState<{ [key: string]: number }>({})
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous")
   const [loading, setLoading] = useState(true)
-  const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -120,7 +116,8 @@ export default function BoutiquePage() {
     }
 
     const data = await res.json()
-    setClientSecret(data.clientSecret)
+    const amount = getTotalPrice()
+    router.push(`/checkout?cs=${encodeURIComponent(data.clientSecret)}&amount=${encodeURIComponent(String(amount))}`)
   }
 
   return (
@@ -159,25 +156,10 @@ export default function BoutiquePage() {
                   <span className="font-semibold">Panier: {getTotalItems()} article(s)</span>
                   <span className="ml-4 text-lg font-bold text-amber-600">{getTotalPrice().toFixed(2)} €</span>
                 </div>
-                {!clientSecret ? (
-                  <Button onClick={handleCheckout} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
-                    Passer commande
-                  </Button>
-                ) : null}
+                <Button onClick={handleCheckout} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+                  Passer commande
+                </Button>
               </div>
-              {clientSecret && (
-                <div className="mt-6">
-                  <Elements
-                    stripe={stripePromise}
-                    options={{
-                      clientSecret,
-                      appearance: { theme: "stripe" },
-                    }}
-                  >
-                    <CheckoutForm amount={getTotalPrice()} onClose={() => setClientSecret(null)} />
-                  </Elements>
-                </div>
-              )}
             </CardContent>
           </Card>
         )}
