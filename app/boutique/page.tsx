@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Minus } from "lucide-react"
 import Nav from "@/components/nav"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 interface Product {
   id: string
