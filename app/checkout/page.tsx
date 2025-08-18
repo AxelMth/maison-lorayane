@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import { Elements } from '@stripe/react-stripe-js'
@@ -22,10 +22,10 @@ export default function CheckoutPage() {
   const orderId = params.get('order_id') || ''
 
   const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!).then((stripe) => {
-    console.log('stripe', stripe, process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+    console.log('stripe', stripe, process.env)
     return stripe
   }).catch((error) => {
-    console.error('Error loading Stripe', error, process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+    console.error('Error loading Stripe', error, process.env)
     return null
   })
 
