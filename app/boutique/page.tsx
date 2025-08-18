@@ -125,7 +125,11 @@ export default function BoutiquePage() {
 
     const data = await res.json()
     const amount = getTotalPrice()
-    router.push(`/checkout?cs=${encodeURIComponent(data.clientSecret)}&amount=${encodeURIComponent(String(amount))}`)
+    router.push(
+      `/checkout?cs=${encodeURIComponent(data.clientSecret)}&amount=${encodeURIComponent(String(amount))}&order_id=${
+        data.orderId
+      }`,
+    )
   }
 
   return (

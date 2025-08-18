@@ -21,7 +21,7 @@ export default function CheckoutPage() {
   const amountParam = params.get('amount')
   const amount = amountParam ? parseFloat(amountParam) : 0
   const status = params.get('redirect_status') || params.get('status')
-  const orderId = params.get('order_id')
+  const orderId = params.get('order_id') || ''
 
   useEffect(() => {
     if (status === 'succeeded' || status === 'paid') {
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
           </CardHeader>
           <CardContent>
             <Elements stripe={stripePromise} options={{ clientSecret, appearance, locale: 'fr' }}>
-              <CheckoutForm amount={amount} />
+              <CheckoutForm amount={amount} orderId={orderId} />
             </Elements>
             <div className="mt-4 flex items-center text-xs text-gray-500">
               <Lock className="h-4 w-4 mr-2" />

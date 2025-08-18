@@ -3,13 +3,15 @@
 import { useState } from 'react'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'next/navigation'
 
 interface Props {
   amount: number
+  orderId: string
   onClose?: () => void
 }
 
-export default function CheckoutForm({ amount, onClose }: Props) {
+export default function CheckoutForm({ amount, orderId, onClose }: Props) {
   const stripe = useStripe()
   const elements = useElements()
   const [message, setMessage] = useState<string | null>(null)
@@ -25,7 +27,7 @@ export default function CheckoutForm({ amount, onClose }: Props) {
       elements,
       confirmParams: {
         // Let Stripe append redirect_status automatically when needed
-        return_url: `${window.location.origin}/checkout`,
+        return_url: `${window.location.origin}/checkout?order_id=${orderId}`,
       },
       redirect: 'if_required',
     })
