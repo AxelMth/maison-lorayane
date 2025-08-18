@@ -279,6 +279,28 @@ export default function AdminPage() {
     )
   }
 
+  const mapOrderStatus = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'En attente'
+      case 'paid':
+        return 'Payé'
+      default:
+        return status
+    }
+  }
+
+  const mapOrderStatusColor = (status: string): string => {
+    switch (status) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800'
+      case 'paid':
+        return 'bg-green-100 text-green-800'
+      default:
+        return 'bg-gray-100 text-gray-800'
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Admin */}
@@ -672,7 +694,7 @@ export default function AdminPage() {
                         </p>
                         <p className="text-sm text-gray-500">Date: {order.date}</p>
                         <div className="mt-2">
-                          <Badge className="bg-blue-100 text-blue-800">{order.status}</Badge>
+                          <Badge className={mapOrderStatusColor(order.status)}>{mapOrderStatus(order.status)}</Badge>
                         </div>
                       </div>
                       <div className="text-right">
