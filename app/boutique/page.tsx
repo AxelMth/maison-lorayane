@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Plus, Minus, CheckCircle2, XCircle } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
 import Nav from '@/components/nav'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 interface Product {
   id: string
