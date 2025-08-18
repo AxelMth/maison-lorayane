@@ -24,7 +24,8 @@ export default function CheckoutForm({ amount, onClose }: Props) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/boutique?status=paid`,
+        // Let Stripe append redirect_status automatically when needed
+        return_url: `${window.location.origin}/checkout`,
       },
       redirect: "if_required",
     })
@@ -41,7 +42,11 @@ export default function CheckoutForm({ amount, onClose }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <PaymentElement />
-      {message && <div className="text-sm text-red-600">{message}</div>}
+      {message && (
+        <div className={message === "Paiement confirmé." ? "text-sm text-emerald-700" : "text-sm text-red-600"}>
+          {message}
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <Button type="submit" disabled={!stripe || loading} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
           {loading ? "Traitement..." : `Payer ${amount.toFixed(2)} €`}

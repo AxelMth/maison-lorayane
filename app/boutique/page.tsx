@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Minus } from "lucide-react"
+import { Plus, Minus, CheckCircle2, XCircle } from "lucide-react"
 import Nav from "@/components/nav"
 import { useRouter, useSearchParams } from "next/navigation"
 
@@ -78,6 +78,7 @@ export default function BoutiquePage() {
       return newCart
     })
   }
+
   const getTotalItems = () => {
     return Object.values(cart).reduce((sum, count) => sum + count, 0)
   }
@@ -95,7 +96,7 @@ export default function BoutiquePage() {
       return {
         id: productId,
         name: product?.name || "",
-        qty,
+        quantity: qty,
         price: product?.price ?? 0,
       }
     })
@@ -106,7 +107,14 @@ export default function BoutiquePage() {
       body: JSON.stringify({
         amount: getTotalPrice(),
         currency: "eur",
-        metadata: { items: JSON.stringify(items) },
+        order: {
+          // TODO: get customer name and email from user
+          customer_name: "John Doe",
+          customer_email: "john.doe@example.com",
+          customer_phone: "1234567890",
+          total_amount: getTotalPrice(),
+        },
+        items: items,
       }),
     })
 
