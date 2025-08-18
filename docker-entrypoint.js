@@ -19,7 +19,7 @@ function exec(command) {
   return new Promise((resolve, reject) => {
     child.on('exit', code => {
       if (code === 0) {
-        resolve()
+        resolve(true)
       } else {
         reject(new Error(`${command} failed rc=${code}`))
       }
