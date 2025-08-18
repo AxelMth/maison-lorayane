@@ -119,7 +119,7 @@ export default function BoutiquePage() {
                 </Link>
               </div>
               <Button variant="outline" className="relative bg-transparent">
-                <ShoppingCart className="h-5 w-5" />
+                <ShoppingCart className="h-5 w-5 hover:cursor-pointer" />
                 {getTotalItems() > 0 && (
                   <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
                     {getTotalItems()}
@@ -174,7 +174,7 @@ export default function BoutiquePage() {
             <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
               <div className="aspect-video relative">
                 <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
-                <Badge className="absolute top-2 right-2 bg-amber-600">{product.category}</Badge>
+                <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
               </div>
               <CardContent className="p-4">
                 <h3 className="text-lg font-semibold mb-2">{product.name}</h3>

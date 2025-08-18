@@ -324,7 +324,7 @@ export default function AdminPage() {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
-                <ShoppingCart className="h-8 w-8 text-green-600" />
+                <ShoppingCart className="h-8 w-8 text-green-600 hover:cursor-pointer" />
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Commandes</p>
                   <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
