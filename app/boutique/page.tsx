@@ -22,9 +22,11 @@ export default function BoutiquePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [cart, setCart] = useState<{ [key: string]: number }>({})
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous")
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true)
       try {
         const res = await fetch("/api/products", { cache: "no-store" })
         if (!res.ok) throw new Error("Erreur lors du chargement des produits")
@@ -42,6 +44,8 @@ export default function BoutiquePage() {
       } catch (e) {
         console.error(e)
         setProducts([])
+      } finally {
+        setLoading(false)
       }
     }
     fetchProducts()
@@ -167,49 +171,66 @@ export default function BoutiquePage() {
             </CardContent>
           </Card>
         )}
-
-        {/* Grille des produits */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product) => (
-            <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="aspect-video relative">
-                <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
-                <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
-              </div>
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                <p className="text-gray-600 text-sm mb-3">{product.description}</p>
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-amber-600">{product.price.toFixed(2)} €</span>
+                {/* Grille des produits */}
+                {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Card key={`skeleton-${i}`} className="overflow-hidden">
+                <div className="aspect-video bg-gray-200 animate-pulse relative" />
+                <CardContent className="p-4">
+                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
+                  <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0">
+                  <div className="h-10 bg-gray-200 rounded w-full animate-pulse"></div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
+              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="aspect-video relative">
+                  <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+                  <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
                 </div>
-              </CardContent>
-              <CardFooter className="p-4 pt-0">
-                {cart[product.id] ? (
-                  <div className="flex items-center justify-between w-full">
-                    <div className="flex items-center space-x-2">
-                      <Button size="sm" variant="outline" onClick={() => removeFromCart(product.id)}>
-                        <Minus className="h-4 w-4" />
-                      </Button>
-                      <span className="font-semibold">{cart[product.id]}</span>
-                      <Button size="sm" variant="outline" onClick={() => addToCart(product.id)}>
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <span className="font-semibold text-amber-600">
-                      {(product.price * cart[product.id]).toFixed(2)} €
-                    </span>
+                <CardContent className="p-4">
+                  <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                  <p className="text-gray-600 text-sm mb-3">{product.description}</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xl font-bold text-amber-600">{product.price.toFixed(2)} €</span>
                   </div>
-                ) : (
-                  <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" onClick={() => addToCart(product.id)}>
-                    Ajouter au panier
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0">
+                  {cart[product.id] ? (
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center space-x-2">
+                        <Button size="sm" variant="outline" onClick={() => removeFromCart(product.id)}>
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                        <span className="font-semibold">{cart[product.id]}</span>
+                        <Button size="sm" variant="outline" onClick={() => addToCart(product.id)}>
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      <span className="font-semibold text-amber-600">
+                        {(product.price * cart[product.id]).toFixed(2)} €
+                      </span>
+                    </div>
+                  ) : (
+                    <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" onClick={() => addToCart(product.id)}>
+                      Ajouter au panier
+                    </Button>
+                  )}
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
 
-        {filteredProducts.length === 0 && (
+        {!loading && filteredProducts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">Aucun produit disponible dans cette catégorie pour le moment.</p>
           </div>
