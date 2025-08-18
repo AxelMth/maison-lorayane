@@ -2,10 +2,10 @@ import { createOrder } from '@/lib/order.service'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
 export async function POST(request: Request) {
   try {
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
     const { amount, currency = 'eur', metadata, order, items } = await request.json()
 
     const createdOrder = await createOrder(order, items)
