@@ -12,24 +12,24 @@ export default function HistoirePage() {
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Notre Histoire</h1>
-          <p className="text-xl text-gray-600">Une tradition familiale qui se transmet de génération en génération</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">Notre Histoire</h1>
+          <p className="text-lg sm:text-xl text-gray-600 break-words">Une tradition familiale qui se transmet de génération en génération</p>
         </div>
 
         <div className="space-y-12">
           {/* Histoire principale */}
           <Card>
-            <CardContent className="p-8">
+            <CardContent className="p-6 sm:p-8">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Les Origines</h2>
-                  <p className="text-gray-600 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 text-balance">Les Origines</h2>
+                  <p className="text-gray-600 mb-4 break-words">
                     L'histoire de Maison L'Orayane commence au début du 20ème siècle, lorsque notre arrière-grand-père
                     ouvre sa première boulangerie dans le cœur de la France. Animé par la passion du pain et des
                     traditions artisanales, il pose les fondations de ce qui deviendra une véritable institution
                     familiale.
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 break-words">
                     Depuis lors, chaque génération a apporté sa pierre à l'édifice, préservant les recettes ancestrales
                     tout en innovant pour satisfaire les goûts contemporains.
                   </p>
@@ -40,7 +40,8 @@ export default function HistoirePage() {
                     alt="Ancienne boulangerie"
                     width={400}
                     height={300}
-                    className="rounded-lg shadow-lg"
+                    sizes="(min-width: 768px) 400px, 100vw"
+                    className="w-full h-auto max-w-full rounded-lg shadow-lg"
                   />
                 </div>
               </div>
@@ -49,17 +50,17 @@ export default function HistoirePage() {
 
           {/* Vidéo section */}
           <Card>
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            <CardContent className="p-6 sm:p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center text-balance">
                 Découvrez notre processus de fabrication
               </h2>
-              <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+              <div className="w-full aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-white text-2xl">▶</span>
                   </div>
-                  <p className="text-gray-600">Vidéo : Le processus de fabrication artisanale</p>
-                  <p className="text-sm text-gray-500 mt-2">(Intégration vidéo à configurer avec vos fichiers)</p>
+                  <p className="text-gray-600 break-words">Vidéo : Le processus de fabrication artisanale</p>
+                  <p className="text-sm text-gray-500 mt-2 break-words">(Intégration vidéo à configurer avec vos fichiers)</p>
                 </div>
               </div>
             </CardContent>
@@ -67,7 +68,7 @@ export default function HistoirePage() {
 
           {/* Tradition et modernité */}
           <Card>
-            <CardContent className="p-8">
+            <CardContent className="p-6 sm:p-8">
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div>
                   <Image
@@ -75,17 +76,18 @@ export default function HistoirePage() {
                     alt="Boulangerie moderne"
                     width={400}
                     height={300}
-                    className="rounded-lg shadow-lg"
+                    sizes="(min-width: 768px) 400px, 100vw"
+                    className="w-full h-auto max-w-full rounded-lg shadow-lg"
                   />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Tradition et Modernité</h2>
-                  <p className="text-gray-600 mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 text-balance">Tradition et Modernité</h2>
+                  <p className="text-gray-600 mb-4 break-words">
                     Aujourd'hui, Maison L'Orayane allie parfaitement tradition et modernité. Nos fours à bois côtoient
                     les équipements les plus modernes, permettant de maintenir la qualité artisanale tout en répondant
                     aux exigences contemporaines.
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 break-words">
                     Notre équipe de boulangers passionnés perpétue les gestes ancestraux, garantissant à chaque produit
                     le goût authentique qui fait notre réputation.
                   </p>
@@ -96,29 +98,29 @@ export default function HistoirePage() {
 
           {/* Valeurs */}
           <Card>
-            <CardContent className="p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Nos Valeurs</h2>
+            <CardContent className="p-6 sm:p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center text-balance">Nos Valeurs</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">🌾</span>
                   </div>
                   <h3 className="font-semibold mb-2">Qualité</h3>
-                  <p className="text-gray-600 text-sm">Sélection rigoureuse des meilleurs ingrédients</p>
+                  <p className="text-gray-600 text-sm break-words">Sélection rigoureuse des meilleurs ingrédients</p>
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">👨‍👩‍👧‍👦</span>
                   </div>
                   <h3 className="font-semibold mb-2">Tradition</h3>
-                  <p className="text-gray-600 text-sm">Savoir-faire transmis de génération en génération</p>
+                  <p className="text-gray-600 text-sm break-words">Savoir-faire transmis de génération en génération</p>
                 </div>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl">❤️</span>
                   </div>
                   <h3 className="font-semibold mb-2">Passion</h3>
-                  <p className="text-gray-600 text-sm">L'amour du métier dans chaque création</p>
+                  <p className="text-gray-600 text-sm break-words">L'amour du métier dans chaque création</p>
                 </div>
               </div>
             </CardContent>
