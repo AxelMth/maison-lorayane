@@ -11,6 +11,14 @@ import { Button } from '@/components/ui/button'
 import { Lock, CheckCircle2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!).then((stripe) => {
+  console.log('stripe', stripe, process.env)
+  return stripe
+}).catch((error) => {
+  console.error('Error loading Stripe', error, process.env)
+  return null
+})
+
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -20,14 +28,6 @@ export default function CheckoutPage() {
   const amount = amountParam ? parseFloat(amountParam) : 0
   const status = params.get('redirect_status') || params.get('status')
   const orderId = params.get('order_id') || ''
-
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!).then((stripe) => {
-    console.log('stripe', stripe, process.env)
-    return stripe
-  }).catch((error) => {
-    console.error('Error loading Stripe', error, process.env)
-    return null
-  })
 
   useEffect(() => {
     if (status === 'succeeded' || status === 'paid') {
