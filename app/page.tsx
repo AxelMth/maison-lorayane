@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Nav from "@/components/nav"
+import { Facebook, Instagram } from "lucide-react"
 
 export default function HomePage() {
   return (
@@ -111,6 +112,14 @@ export default function HomePage() {
             <div className="text-center md:text-right">
               <p className="text-sm">© 2024 Maison L'Orayane. Tous droits réservés.</p>
               <p className="text-sm mt-1">Boulangerie artisanale française</p>
+            </div>
+            <div className="flex items-center mt-4 md:mb-0 gap-4">
+              <Link href="https://www.facebook.com/p/Maison-LOrayane-100088821732375/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:opacity-90">
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link href="https://www.instagram.com/maison_lorayane/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:opacity-90">
+                <Instagram className="h-5 w-5" />
+              </Link>
             </div>
           </div>
         </div>
