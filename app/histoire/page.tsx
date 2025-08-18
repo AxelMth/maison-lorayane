@@ -2,47 +2,14 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import Nav from "@/components/nav"
 
 export default function HistoirePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-primary text-primary-foreground shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Image
-                src="/images/maison-lorayane.jpg"
-                alt="Maison L'Orayane"
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-              <span className="ml-3 text-xl font-bold text-amber-800">Maison L'Orayane</span>
-            </div>
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">
-                  Accueil
-                </Link>
-                <Link
-                  href="/histoire"
-                  className="text-amber-800 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Notre Histoire
-                </Link>
-                <Link
-                  href="/boutique"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Boutique
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
+      <Nav />
+      
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Notre Histoire</h1>

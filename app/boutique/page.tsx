@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Plus, Minus } from "lucide-react"
+import { Plus, Minus } from "lucide-react"
+import Nav from "@/components/nav"
 
 interface Product {
   id: string
@@ -91,49 +91,7 @@ export default function BoutiquePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-primary text-primary-foreground shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Image
-                src="/images/maison-lorayane.jpg"
-                alt="Maison L'Orayane"
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-              <span className="ml-3 text-xl font-bold text-amber-800">Maison L'Orayane</span>
-            </div>
-            <div className="flex items-center">
-              <div className="ml-10 flex items-baseline space-x-4 hidden md:block">
-                <Link href="/" className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium">
-                  Accueil
-                </Link>
-                <Link
-                  href="/histoire"
-                  className="text-gray-700 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Notre Histoire
-                </Link>
-                <Link
-                  href="/boutique"
-                  className="text-amber-800 hover:text-amber-600 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Boutique
-                </Link>
-              </div>
-              <Button variant="outline" className="relative bg-transparent">
-                <ShoppingCart className="h-5 w-5 hover:cursor-pointer" />
-                {getTotalItems() > 0 && (
-                  <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                    {getTotalItems()}
-                  </Badge>
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Nav />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
