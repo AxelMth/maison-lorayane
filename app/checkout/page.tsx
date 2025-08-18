@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import { Elements } from '@stripe/react-stripe-js'
@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { Lock, CheckCircle2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -21,6 +20,8 @@ export default function CheckoutPage() {
   const amount = amountParam ? parseFloat(amountParam) : 0
   const status = params.get('redirect_status') || params.get('status')
   const orderId = params.get('order_id') || ''
+
+  const stripePromise = useMemo(() => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!), [process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY])
 
   useEffect(() => {
     if (status === 'succeeded' || status === 'paid') {
