@@ -1,19 +1,21 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import Nav from "@/components/nav"
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import Nav from '@/components/nav'
 
 export default function HistoirePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
       <Nav />
-      
+
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 text-balance">Notre Histoire</h1>
-          <p className="text-lg sm:text-xl text-gray-600 break-words">Une tradition familiale qui se transmet de génération en génération</p>
+          <p className="text-lg sm:text-xl text-gray-600 break-words">
+            Une tradition familiale qui se transmet de génération en génération
+          </p>
         </div>
 
         <div className="space-y-12">
@@ -60,7 +62,9 @@ export default function HistoirePage() {
                     <span className="text-white text-2xl">▶</span>
                   </div>
                   <p className="text-gray-600 break-words">Vidéo : Le processus de fabrication artisanale</p>
-                  <p className="text-sm text-gray-500 mt-2 break-words">(Intégration vidéo à configurer avec vos fichiers)</p>
+                  <p className="text-sm text-gray-500 mt-2 break-words">
+                    (Intégration vidéo à configurer avec vos fichiers)
+                  </p>
                 </div>
               </div>
             </CardContent>

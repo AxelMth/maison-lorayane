@@ -1,6 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Map CSS variables to Tailwind v4 tokens */
 @theme {
@@ -40,7 +40,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 33 83% 82%;            /* #f7d4aa */
+    --primary: 33 83% 82%; /* #f7d4aa */
     --primary-foreground: 28 66% 20%; /* dark brown for contrast */
     --secondary: 33 70% 94%;
     --secondary-foreground: 28 66% 20%;
@@ -62,8 +62,8 @@
   }
 
   /* Alternate colorful themes (switch by setting data-theme on <html>) */
-  [data-theme="apricot"] {
-    --primary: 33 83% 82%;            /* #f7d4aa */
+  [data-theme='apricot'] {
+    --primary: 33 83% 82%; /* #f7d4aa */
     --primary-foreground: 28 66% 20%;
     --secondary: 33 70% 94%;
     --secondary-foreground: 28 66% 20%;
@@ -71,8 +71,8 @@
     --accent-foreground: 0 0% 98%;
   }
 
-  [data-theme="terracotta"] {
-    --primary: 18 70% 64%;            /* warm terracotta */
+  [data-theme='terracotta'] {
+    --primary: 18 70% 64%; /* warm terracotta */
     --primary-foreground: 0 0% 98%;
     --secondary: 18 55% 92%;
     --secondary-foreground: 22 70% 20%;
@@ -80,8 +80,8 @@
     --accent-foreground: 0 0% 98%;
   }
 
-  [data-theme="sage"] {
-    --primary: 100 30% 84%;           /* soft sage */
+  [data-theme='sage'] {
+    --primary: 100 30% 84%; /* soft sage */
     --primary-foreground: 120 20% 20%;
     --secondary: 100 25% 92%;
     --secondary-foreground: 120 20% 20%;
@@ -89,8 +89,8 @@
     --accent-foreground: 0 0% 98%;
   }
 
-  [data-theme="lavender"] {
-    --primary: 260 60% 85%;           /* light lavender */
+  [data-theme='lavender'] {
+    --primary: 260 60% 85%; /* light lavender */
     --primary-foreground: 260 45% 20%;
     --secondary: 260 45% 93%;
     --secondary-foreground: 260 45% 20%;
@@ -98,8 +98,8 @@
     --accent-foreground: 0 0% 98%;
   }
 
-  [data-theme="marine"] {
-    --primary: 196 60% 40%;           /* marine teal */
+  [data-theme='marine'] {
+    --primary: 196 60% 40%; /* marine teal */
     --primary-foreground: 0 0% 98%;
     --secondary: 196 50% 92%;
     --secondary-foreground: 200 40% 20%;

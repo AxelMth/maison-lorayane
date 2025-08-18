@@ -1,8 +1,8 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react'
+import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
+import { Button } from '@/components/ui/button'
 
 interface Props {
   amount: number
@@ -27,13 +27,13 @@ export default function CheckoutForm({ amount, onClose }: Props) {
         // Let Stripe append redirect_status automatically when needed
         return_url: `${window.location.origin}/checkout`,
       },
-      redirect: "if_required",
+      redirect: 'if_required',
     })
 
     if (error) {
-      setMessage(error.message || "Le paiement a échoué.")
+      setMessage(error.message || 'Le paiement a échoué.')
     } else {
-      setMessage("Paiement confirmé.")
+      setMessage('Paiement confirmé.')
     }
 
     setLoading(false)
@@ -43,13 +43,17 @@ export default function CheckoutForm({ amount, onClose }: Props) {
     <form onSubmit={handleSubmit} className="space-y-4">
       <PaymentElement />
       {message && (
-        <div className={message === "Paiement confirmé." ? "text-sm text-emerald-700" : "text-sm text-red-600"}>
+        <div className={message === 'Paiement confirmé.' ? 'text-sm text-emerald-700' : 'text-sm text-red-600'}>
           {message}
         </div>
       )}
       <div className="flex items-center gap-2">
-        <Button type="submit" disabled={!stripe || loading} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
-          {loading ? "Traitement..." : `Payer ${amount.toFixed(2)} €`}
+        <Button
+          type="submit"
+          disabled={!stripe || loading}
+          className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer"
+        >
+          {loading ? 'Traitement...' : `Payer ${amount.toFixed(2)} €`}
         </Button>
         {onClose && (
           <Button type="button" variant="outline" onClick={onClose}>

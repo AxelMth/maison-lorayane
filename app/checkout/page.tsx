@@ -1,41 +1,41 @@
 // app/checkout/page.tsx
-"use client"
+'use client'
 
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
-import { useSearchParams } from "next/navigation"
-import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe } from "@stripe/stripe-js"
-import CheckoutForm from "@/components/checkout-form"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Lock, CheckCircle2, XCircle } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useSearchParams } from 'next/navigation'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import CheckoutForm from '@/components/checkout-form'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Lock, CheckCircle2, XCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 export default function CheckoutPage() {
   const router = useRouter()
   const params = useSearchParams()
-  const clientSecret = params.get("cs")
-  const amountParam = params.get("amount")
-  const amount= amountParam ? parseFloat(amountParam) : 0
-  const status = params.get("redirect_status") || params.get("status")
-  const orderId = params.get("order_id")
+  const clientSecret = params.get('cs')
+  const amountParam = params.get('amount')
+  const amount = amountParam ? parseFloat(amountParam) : 0
+  const status = params.get('redirect_status') || params.get('status')
+  const orderId = params.get('order_id')
 
   useEffect(() => {
-    if (status === "succeeded" || status === "paid") {
-      fetch("/api/orders", {
-        method: "PATCH",
+    if (status === 'succeeded' || status === 'paid') {
+      fetch('/api/orders', {
+        method: 'PATCH',
         body: JSON.stringify({
           id: orderId,
-          status: "paid",
+          status: 'paid',
         }),
       })
     }
   }, [status, router, orderId])
 
-  if (status === "succeeded" || status === "paid") {
+  if (status === 'succeeded' || status === 'paid') {
     return (
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex items-center">
         <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
@@ -45,7 +45,10 @@ export default function CheckoutPage() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">Paiement réussi</h2>
           <p className="text-gray-600 mb-6">Merci pour votre commande. Un email de confirmation vous a été envoyé.</p>
           <div className="flex items-center justify-center gap-3">
-            <Button onClick={() => router.push("/")} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+            <Button
+              onClick={() => router.push('/')}
+              className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer"
+            >
               Retour à la boutique
             </Button>
           </div>
@@ -54,7 +57,7 @@ export default function CheckoutPage() {
     )
   }
 
-  if (status === "failed") {
+  if (status === 'failed') {
     return (
       <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white flex items-center">
         <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
@@ -62,9 +65,14 @@ export default function CheckoutPage() {
             <XCircle className="h-10 w-10 text-red-600" />
           </div>
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">Paiement échoué</h2>
-          <p className="text-gray-600 mb-6">Une erreur est survenue. Veuillez réessayer ou utiliser un autre moyen de paiement.</p>
+          <p className="text-gray-600 mb-6">
+            Une erreur est survenue. Veuillez réessayer ou utiliser un autre moyen de paiement.
+          </p>
           <div className="flex items-center justify-center gap-3">
-            <Button onClick={() => router.push("/")} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+            <Button
+              onClick={() => router.push('/')}
+              className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer"
+            >
               Retour à la boutique
             </Button>
           </div>
@@ -94,13 +102,14 @@ export default function CheckoutPage() {
   }
 
   const appearance = {
-    theme: "flat" as const,
+    theme: 'flat' as const,
     variables: {
-      colorPrimary: "#d97706",
-      colorBackground: "#ffffff",
-      colorText: "#111827",
-      borderRadius: "12px",
-      fontFamily: '"Geist", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
+      colorPrimary: '#d97706',
+      colorBackground: '#ffffff',
+      colorText: '#111827',
+      borderRadius: '12px',
+      fontFamily:
+        '"Geist", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"',
     },
   }
 
@@ -113,10 +122,7 @@ export default function CheckoutPage() {
             <CardDescription>Montant: {amount.toFixed(2)} €</CardDescription>
           </CardHeader>
           <CardContent>
-            <Elements
-              stripe={stripePromise}
-              options={{ clientSecret, appearance, locale: "fr" }}
-            >
+            <Elements stripe={stripePromise} options={{ clientSecret, appearance, locale: 'fr' }}>
               <CheckoutForm amount={amount} />
             </Elements>
             <div className="mt-4 flex items-center text-xs text-gray-500">
