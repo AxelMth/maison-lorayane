@@ -7,6 +7,9 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Minus } from "lucide-react"
 import Nav from "@/components/nav"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
+import CheckoutForm from "@/components/checkout-form"
 
 interface Product {
   id: string
@@ -18,11 +21,14 @@ interface Product {
   active: boolean
 }
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+
 export default function BoutiquePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [cart, setCart] = useState<{ [key: string]: number }>({})
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous")
   const [loading, setLoading] = useState(true)
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -76,7 +82,6 @@ export default function BoutiquePage() {
       return newCart
     })
   }
-
   const getTotalItems = () => {
     return Object.values(cart).reduce((sum, count) => sum + count, 0)
   }
@@ -86,6 +91,36 @@ export default function BoutiquePage() {
       const product = products.find((p) => p.id === productId)
       return sum + (product ? product.price * count : 0)
     }, 0)
+  }
+
+  const handleCheckout = async () => {
+    const items = Object.entries(cart).map(([productId, qty]) => {
+      const product = products.find((p) => p.id === productId)
+      return {
+        id: productId,
+        name: product?.name || "",
+        qty,
+        price: product?.price ?? 0,
+      }
+    })
+
+    const res = await fetch("/api/stripe/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: getTotalPrice(),
+        currency: "eur",
+        metadata: { items: JSON.stringify(items) },
+      }),
+    })
+
+    if (!res.ok) {
+      console.error("Erreur lors de la création du PaymentIntent")
+      return
+    }
+
+    const data = await res.json()
+    setClientSecret(data.clientSecret)
   }
 
   return (
@@ -124,76 +159,94 @@ export default function BoutiquePage() {
                   <span className="font-semibold">Panier: {getTotalItems()} article(s)</span>
                   <span className="ml-4 text-lg font-bold text-amber-600">{getTotalPrice().toFixed(2)} €</span>
                 </div>
-                <Button className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">Passer commande</Button>
+                {!clientSecret ? (
+                  <Button onClick={handleCheckout} className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+                    Passer commande
+                  </Button>
+                ) : null}
               </div>
+              {clientSecret && (
+                <div className="mt-6">
+                  <Elements
+                    stripe={stripePromise}
+                    options={{
+                      clientSecret,
+                      appearance: { theme: "stripe" },
+                    }}
+                  >
+                    <CheckoutForm amount={getTotalPrice()} onClose={() => setClientSecret(null)} />
+                  </Elements>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
-                {/* Grille des produits */}
-                {loading ? (
+        
+        {/* Grille des produits */}
+        {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={`skeleton-${i}`} className="overflow-hidden">
-                <div className="aspect-video bg-gray-200 animate-pulse relative" />
-                <CardContent className="p-4">
-                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
-                  <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse"></div>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  <div className="h-10 bg-gray-200 rounded w-full animate-pulse"></div>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-video relative">
-                  <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
-                  <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Card key={`skeleton-${i}`} className="overflow-hidden">
+              <div className="aspect-video bg-gray-200 animate-pulse relative" />
+              <CardContent className="p-4">
+                <div className="h-5 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
+                <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+              </CardContent>
+              <CardFooter className="p-4 pt-0">
+                <div className="h-10 bg-gray-200 rounded w-full animate-pulse"></div>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => (
+            <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="aspect-video relative">
+                <Image src={product.image || "/placeholder.svg"} alt={product.name} fill className="object-cover" />
+                <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
+              </div>
+              <CardContent className="p-4">
+                <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-3">{product.description}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-amber-600">{product.price.toFixed(2)} €</span>
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{product.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold text-amber-600">{product.price.toFixed(2)} €</span>
-                  </div>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  {cart[product.id] ? (
-                    <div className="flex items-center justify-between w-full">
-                      <div className="flex items-center space-x-2">
-                        <Button size="sm" variant="outline" onClick={() => removeFromCart(product.id)}>
-                          <Minus className="h-4 w-4" />
-                        </Button>
-                        <span className="font-semibold">{cart[product.id]}</span>
-                        <Button size="sm" variant="outline" onClick={() => addToCart(product.id)}>
-                          <Plus className="h-4 w-4" />
-                        </Button>
-                      </div>
-                      <span className="font-semibold text-amber-600">
-                        {(product.price * cart[product.id]).toFixed(2)} €
-                      </span>
+              </CardContent>
+              <CardFooter className="p-4 pt-0">
+                {cart[product.id] ? (
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center space-x-2">
+                      <Button size="sm" variant="outline" onClick={() => removeFromCart(product.id)}>
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="font-semibold">{cart[product.id]}</span>
+                      <Button size="sm" variant="outline" onClick={() => addToCart(product.id)}>
+                        <Plus className="h-4 w-4" />
+                      </Button>
                     </div>
-                  ) : (
-                    <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" onClick={() => addToCart(product.id)}>
-                      Ajouter au panier
-                    </Button>
-                  )}
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        )}
+                    <span className="font-semibold text-amber-600">
+                      {(product.price * cart[product.id]).toFixed(2)} €
+                    </span>
+                  </div>
+                ) : (
+                  <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer" onClick={() => addToCart(product.id)}>
+                    Ajouter au panier
+                  </Button>
+                )}
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
 
-        {!loading && filteredProducts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Aucun produit disponible dans cette catégorie pour le moment.</p>
-          </div>
-        )}
-      </div>
+      {!loading && filteredProducts.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 text-lg">Aucun produit disponible dans cette catégorie pour le moment.</p>
+        </div>
+      )}
     </div>
-  )
+  </div>
+)
 }
