@@ -21,7 +21,13 @@ export default function CheckoutPage() {
   const status = params.get('redirect_status') || params.get('status')
   const orderId = params.get('order_id') || ''
 
-  const stripePromise = useMemo(() => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!), [process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY])
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!).then((stripe) => {
+    console.log('stripe', stripe, process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+    return stripe
+  }).catch((error) => {
+    console.error('Error loading Stripe', error, process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
+    return null
+  })
 
   useEffect(() => {
     if (status === 'succeeded' || status === 'paid') {
