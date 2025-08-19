@@ -187,14 +187,14 @@ export default function BoutiquePage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Card key={`skeleton-${i}`} className="overflow-hidden">
+              <Card key={`skeleton-${i}`} className="overflow-hidden flex flex-col h-full">
                 <div className="aspect-video bg-gray-200 animate-pulse relative" />
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex-1">
                   <div className="h-5 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
                   <div className="h-4 bg-gray-200 rounded w-full mb-3 animate-pulse"></div>
                   <div className="h-6 bg-gray-200 rounded w-1/3 animate-pulse"></div>
                 </CardContent>
-                <CardFooter className="p-4 pt-0">
+                <CardFooter className="p-4 pt-0 mt-auto">
                   <div className="h-10 bg-gray-200 rounded w-full animate-pulse"></div>
                 </CardFooter>
               </Card>
@@ -203,19 +203,19 @@ export default function BoutiquePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map(product => (
-              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
                 <div className="aspect-video relative">
                   <Image src={product.image || '/placeholder.svg'} alt={product.name} fill className="object-cover" />
                   <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
                 </div>
-                <CardContent className="p-4">
+                <CardContent className="p-4 flex-1">
                   <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
                   <p className="text-gray-600 text-sm mb-3">{product.description}</p>
                   <div className="flex justify-between items-center">
                     <span className="text-xl font-bold text-amber-600">{product.price.toFixed(2)} €</span>
                   </div>
                 </CardContent>
-                <CardFooter className="p-4 pt-0">
+                <CardFooter className="p-4 pt-0 mt-auto">
                   {cart[product.id] ? (
                     <div className="flex items-center justify-between w-full">
                       <div className="flex items-center space-x-2">
