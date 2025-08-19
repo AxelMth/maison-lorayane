@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { Button } from '@/components/ui/button'
 
@@ -15,12 +16,12 @@ export default function CheckoutForm({ amount, orderId, onClose }: Props) {
   const elements = useElements()
   const [message, setMessage] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!stripe || !elements) return
     setLoading(true)
-    setMessage(null)
 
     const { error } = await stripe.confirmPayment({
       elements,
@@ -34,7 +35,7 @@ export default function CheckoutForm({ amount, orderId, onClose }: Props) {
     if (error) {
       setMessage(error.message || 'Le paiement a échoué.')
     } else {
-      setMessage('Paiement confirmé.')
+      router.push(`/checkout?order_id=${orderId}&status=succeeded`)
     }
 
     setLoading(false)
@@ -42,9 +43,9 @@ export default function CheckoutForm({ amount, orderId, onClose }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <PaymentElement />
+      <PaymentElement/>
       {message && (
-        <div className={message === 'Paiement confirmé.' ? 'text-sm text-emerald-700' : 'text-sm text-red-600'}>
+        <div className="text-sm text-red-600">
           {message}
         </div>
       )}
