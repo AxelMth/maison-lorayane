@@ -1,4 +1,5 @@
-import { type Order, type OrderItem, supabase } from './supabase'
+import { type Order, type OrderItem } from './supabase'
+import { supabaseAdmin as supabase } from './supabase-admin'
 
 export const createOrder = async (order: Order, items: OrderItem[]) => {
   const { data: createdOrder, error: orderError } = await supabase

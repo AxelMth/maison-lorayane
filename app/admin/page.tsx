@@ -13,6 +13,8 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2, EyeOff } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+
 interface Product {
   id: string
   name: string
@@ -56,8 +58,12 @@ export default function AdminPage() {
     category: '',
     startDate: '',
     endDate: '',
-    image: '',
   })
+
+  const [newImageFile, setNewImageFile] = useState<File | null>(null)
+  const [newImagePreview, setNewImagePreview] = useState<string | null>(null)
+  const [editImageFile, setEditImageFile] = useState<File | null>(null)
+  const [editImagePreview, setEditImagePreview] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isAuthenticated) return
@@ -116,6 +122,12 @@ export default function AdminPage() {
   const handleAddProduct = async () => {
     try {
       setIsCreating(true)
+  
+      let imageUrl = '/placeholder.svg?height=200&width=300';
+      if (newImageFile) {
+        imageUrl = await uploadProductImage(newImageFile, newProduct.name || 'produit')
+      }
+  
       const res = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -126,7 +138,7 @@ export default function AdminPage() {
           category: newProduct.category,
           start_date: newProduct.startDate,
           end_date: newProduct.endDate,
-          image_url: newProduct.image || '/placeholder.svg?height=200&width=300',
+          image_url: imageUrl,
         }),
       })
       if (!res.ok) throw new Error('Échec de la création')
@@ -143,7 +155,10 @@ export default function AdminPage() {
         endDate: created.end_date || '',
       }
       setProducts(prev => [...prev, mapped])
-      setNewProduct({ name: '', description: '', price: 0, category: '', startDate: '', endDate: '', image: '' })
+      setNewProduct({ name: '', description: '', price: 0, category: '', startDate: '', endDate: '' })
+      if (newImagePreview) URL.revokeObjectURL(newImagePreview)
+      setNewImageFile(null)
+      setNewImagePreview(null)
       setIsAddingProduct(false)
     } catch (e) {
       console.error(e)
@@ -157,6 +172,12 @@ export default function AdminPage() {
     if (!editingProduct) return
     try {
       setIsUpdating(true)
+
+      let imageUrl = editingProduct.image
+      if (editImageFile) {
+        imageUrl = await uploadProductImage(editImageFile, editingProduct.name || 'produit')
+      }
+
       const res = await fetch(`/api/products/${editingProduct.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -167,7 +188,7 @@ export default function AdminPage() {
           category: editingProduct.category,
           start_date: editingProduct.startDate,
           end_date: editingProduct.endDate,
-          image_url: editingProduct.image || '/placeholder.svg?height=200&width=300',
+          image_url: imageUrl,
           active: editingProduct.active,
         }),
       })
@@ -186,6 +207,9 @@ export default function AdminPage() {
       }
       setProducts(prev => prev.map(p => (p.id === mapped.id ? mapped : p)))
       setEditingProduct(null)
+      if (editImagePreview) URL.revokeObjectURL(editImagePreview)
+      setEditImageFile(null)
+      setEditImagePreview(null)
     } catch (e) {
       console.error(e)
       alert('Erreur lors de la mise à jour du produit')
@@ -468,14 +492,32 @@ export default function AdminPage() {
                         />
                       </div>
                     </div>
-                    <div>
-                      <Label htmlFor="image">URL de l'image (optionnel)</Label>
-                      <Input
-                        id="image"
-                        value={newProduct.image}
-                        onChange={e => setNewProduct({ ...newProduct, image: e.target.value })}
-                        placeholder="https://exemple.com/image.jpg"
-                      />
+                    <div className="grid grid-cols-2 gap-4 items-end">
+                      <div>
+                        <Label htmlFor="imageFile">Téléverser une image</Label>
+                        <Input
+                          id="imageFile"
+                          type="file"
+                          accept="image/*"
+                          onChange={e => {
+                            const file = e.target.files?.[0] || null
+                            if (newImagePreview) URL.revokeObjectURL(newImagePreview)
+                            setNewImageFile(file)
+                            setNewImagePreview(file ? URL.createObjectURL(file) : null)
+                          }}
+                        />
+                      </div>
+                      <div className="justify-self-end">
+                        {newImagePreview && (
+                          <Image
+                            src={newImagePreview}
+                            alt={newProduct.name || 'prévisualisation'}
+                            width={120}
+                            height={120}
+                            className="rounded object-cover"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex justify-end space-x-2">
@@ -498,7 +540,14 @@ export default function AdminPage() {
                 </DialogContent>
               </Dialog>
 
-              <Dialog open={!!editingProduct} onOpenChange={open => !open && setEditingProduct(null)}>
+              <Dialog open={!!editingProduct} onOpenChange={open => {
+                if (!open) {
+                  if (editImagePreview) URL.revokeObjectURL(editImagePreview)
+                  setEditingProduct(null)
+                  setEditImageFile(null)
+                  setEditImagePreview(null)
+                }
+              }}>
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>Modifier le produit</DialogTitle>
@@ -723,4 +772,18 @@ export default function AdminPage() {
       </div>
     </div>
   )
+}
+
+async function uploadProductImage(file: File, baseName: string) {
+  const form = new FormData()
+  form.set('file', file)
+  form.set('baseName', baseName || 'produit')
+
+  const res = await fetch('/api/storage/upload', { method: 'POST', body: form })
+  if (!res.ok) {
+    console.error('Upload error:', await res.text())
+    throw new Error('Échec de l\'upload de l\'image')
+  }
+  const { publicUrl } = await res.json()
+  return publicUrl
 }
