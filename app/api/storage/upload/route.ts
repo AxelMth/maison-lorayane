@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server'
 import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 
@@ -14,7 +13,11 @@ export async function POST(request: Request) {
 
     const BUCKET = 'product-images'
     const ext = file.name.split('.').pop() || 'jpg'
-    const safe = baseName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    const safe = baseName
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
     const fileName = `${safe}-${Date.now()}.${ext}`
     const filePath = `products/${fileName}`
 

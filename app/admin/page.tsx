@@ -122,12 +122,12 @@ export default function AdminPage() {
   const handleAddProduct = async () => {
     try {
       setIsCreating(true)
-  
-      let imageUrl = '/placeholder.svg?height=200&width=300';
+
+      let imageUrl = '/placeholder.svg?height=200&width=300'
       if (newImageFile) {
         imageUrl = await uploadProductImage(newImageFile, newProduct.name || 'produit')
       }
-  
+
       const res = await fetch('/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -540,14 +540,17 @@ export default function AdminPage() {
                 </DialogContent>
               </Dialog>
 
-              <Dialog open={!!editingProduct} onOpenChange={open => {
-                if (!open) {
-                  if (editImagePreview) URL.revokeObjectURL(editImagePreview)
-                  setEditingProduct(null)
-                  setEditImageFile(null)
-                  setEditImagePreview(null)
-                }
-              }}>
+              <Dialog
+                open={!!editingProduct}
+                onOpenChange={open => {
+                  if (!open) {
+                    if (editImagePreview) URL.revokeObjectURL(editImagePreview)
+                    setEditingProduct(null)
+                    setEditImageFile(null)
+                    setEditImagePreview(null)
+                  }
+                }}
+              >
                 <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>Modifier le produit</DialogTitle>
@@ -782,7 +785,7 @@ async function uploadProductImage(file: File, baseName: string) {
   const res = await fetch('/api/storage/upload', { method: 'POST', body: form })
   if (!res.ok) {
     console.error('Upload error:', await res.text())
-    throw new Error('Échec de l\'upload de l\'image')
+    throw new Error("Échec de l'upload de l'image")
   }
   const { publicUrl } = await res.json()
   return publicUrl

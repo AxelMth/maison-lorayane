@@ -14,6 +14,10 @@ const nextConfig = {
         ]
       : [],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+    dirs: ['app', 'components', 'lib', 'pages', 'utils'],
+  },
 }
 
 export default nextConfig

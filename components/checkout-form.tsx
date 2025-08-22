@@ -43,12 +43,8 @@ export default function CheckoutForm({ amount, orderId, onClose }: Props) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <PaymentElement/>
-      {message && (
-        <div className="text-sm text-red-600">
-          {message}
-        </div>
-      )}
+      <PaymentElement />
+      {message && <div className="text-sm text-red-600">{message}</div>}
       <div className="flex items-center gap-2">
         <Button
           type="submit"

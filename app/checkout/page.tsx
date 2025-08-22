@@ -11,14 +11,15 @@ import { Button } from '@/components/ui/button'
 import { Lock, CheckCircle2, XCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!).then((stripe) => {
-  console.log('stripe', stripe, process.env)
-  return stripe
-}).catch((error) => {
-  console.error('Error loading Stripe', error, process.env)
-  return null
-})
-
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+  .then(stripe => {
+    console.log('stripe', stripe, process.env)
+    return stripe
+  })
+  .catch(error => {
+    console.error('Error loading Stripe', error, process.env)
+    return null
+  })
 
 export default function CheckoutPage() {
   const router = useRouter()
