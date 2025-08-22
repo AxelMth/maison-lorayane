@@ -18,9 +18,9 @@ export default function HomePage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
           <div className="text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Maison L'Orayane</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4">Maison L&apos;Orayane</h1>
             <p className="text-xl md:text-2xl mb-8 max-w-2xl">
-              L'art de la boulangerie française traditionnelle depuis des générations
+              L&apos;art de la boulangerie française traditionnelle depuis des générations
             </p>
             <div className="space-x-4">
               <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
@@ -43,7 +43,7 @@ export default function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L'Orayane</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L&apos;Orayane</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
               Depuis plusieurs générations, notre famille perpétue la tradition de la boulangerie française. Chaque
               jour, nous préparons avec passion des pains et pâtisseries artisanales, en utilisant uniquement les
@@ -101,10 +101,10 @@ export default function HomePage() {
                 height={40}
                 className="rounded-full"
               />
-              <span className="ml-3 text-lg font-semibold">Maison L'Orayane</span>
+              <span className="ml-3 text-lg font-semibold">Maison L&apos;Orayane</span>
             </div>
             <div className="text-center md:text-right">
-              <p className="text-sm">© 2024 Maison L'Orayane. Tous droits réservés.</p>
+              <p className="text-sm">© 2024 Maison L&apos;Orayane. Tous droits réservés.</p>
               <p className="text-sm mt-1">Boulangerie artisanale française</p>
             </div>
             <div className="flex items-center mt-4 md:mb-0 gap-4">

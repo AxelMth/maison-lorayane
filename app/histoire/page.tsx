@@ -26,14 +26,14 @@ export default function HistoirePage() {
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4 text-balance">Les Origines</h2>
                   <p className="text-gray-600 mb-4 break-words">
-                    L'histoire de Maison L'Orayane commence au début du 20ème siècle, lorsque notre arrière-grand-père
-                    ouvre sa première boulangerie dans le cœur de la France. Animé par la passion du pain et des
-                    traditions artisanales, il pose les fondations de ce qui deviendra une véritable institution
-                    familiale.
+                    L&apos;histoire de Maison L&apos;Orayane commence au début du 20ème siècle, lorsque notre
+                    arrière-grand-père ouvre sa première boulangerie dans le cœur de la France. Animé par la passion du
+                    pain et des traditions artisanales, il pose les fondations de ce qui deviendra une véritable
+                    institution familiale.
                   </p>
                   <p className="text-gray-600 break-words">
-                    Depuis lors, chaque génération a apporté sa pierre à l'édifice, préservant les recettes ancestrales
-                    tout en innovant pour satisfaire les goûts contemporains.
+                    Depuis lors, chaque génération a apporté sa pierre à l&apos;édifice, préservant les recettes
+                    ancestrales tout en innovant pour satisfaire les goûts contemporains.
                   </p>
                 </div>
                 <div>
@@ -87,9 +87,9 @@ export default function HistoirePage() {
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 mb-4 text-balance">Tradition et Modernité</h2>
                   <p className="text-gray-600 mb-4 break-words">
-                    Aujourd'hui, Maison L'Orayane allie parfaitement tradition et modernité. Nos fours à bois côtoient
-                    les équipements les plus modernes, permettant de maintenir la qualité artisanale tout en répondant
-                    aux exigences contemporaines.
+                    Aujourd&apos;hui, Maison L&apos;Orayane allie parfaitement tradition et modernité. Nos fours à bois
+                    côtoient les équipements les plus modernes, permettant de maintenir la qualité artisanale tout en
+                    répondant aux exigences contemporaines.
                   </p>
                   <p className="text-gray-600 break-words">
                     Notre équipe de boulangers passionnés perpétue les gestes ancestraux, garantissant à chaque produit
@@ -124,7 +124,7 @@ export default function HistoirePage() {
                     <span className="text-2xl">❤️</span>
                   </div>
                   <h3 className="font-semibold mb-2">Passion</h3>
-                  <p className="text-gray-600 text-sm break-words">L'amour du métier dans chaque création</p>
+                  <p className="text-gray-600 text-sm break-words">L&apos;amour du métier dans chaque création</p>
                 </div>
               </div>
             </CardContent>

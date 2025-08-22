@@ -20,7 +20,7 @@ export default function Nav() {
               height={100}
               className="rounded-full"
             />
-            <span className="ml-3 text-xl font-bold text-primary-foreground">Maison L'Orayane</span>
+            <span className="ml-3 text-xl font-bold text-primary-foreground">Maison L&apos;Orayane</span>
           </div>
 
           {/* Desktop links */}

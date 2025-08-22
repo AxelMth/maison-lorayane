@@ -13,7 +13,6 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2, EyeOff } from 'lucide-react'
-import { supabase } from '@/lib/supabase'
 
 interface Product {
   id: string
@@ -339,7 +338,7 @@ export default function AdminPage() {
                 height={60}
                 className="rounded-full"
               />
-              <span className="ml-3 text-xl font-bold text-primary-foreground">Admin - Maison L'Orayane</span>
+              <span className="ml-3 text-xl font-bold text-primary-foreground">Admin - Maison L&apos;Orayane</span>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/" className="hover:opacity-90">
@@ -389,7 +388,7 @@ export default function AdminPage() {
             <CardContent className="p-6">
               <div className="flex items-center">
                 <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Chiffre d'affaires</p>
+                  <p className="text-sm font-medium text-gray-600">Chiffre d&apos;affaires</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {orders.reduce((sum, order) => sum + order.total, 0).toFixed(2)} €
                   </p>
@@ -624,7 +623,7 @@ export default function AdminPage() {
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="edit-image">URL de l'image (optionnel)</Label>
+                        <Label htmlFor="edit-image">URL de l&apos;image (optionnel)</Label>
                         <Input
                           id="edit-image"
                           value={editingProduct.image}
