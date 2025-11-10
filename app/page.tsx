@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import Nav from '@/components/nav'
-import { Facebook, Instagram } from 'lucide-react'
+import { Facebook, Instagram, MapPin, Clock, Wheat, Croissant, Cake } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -50,71 +50,14 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L&apos;Orayane</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
               Depuis plusieurs générations, notre famille perpétue la tradition de la boulangerie française. Chaque
               jour, nous préparons avec passion des pains et pâtisseries artisanales, en utilisant uniquement les
               meilleurs ingrédients et les techniques ancestrales.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48 w-full">
-                <Image 
-                  src="/images/468098791_17948876597897027_4144459834020110199_n.jpg"
-                  alt="Pains artisanaux"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🥖</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Pains Artisanaux</h3>
-                <p className="text-gray-600">
-                  Nos pains sont pétris et cuits selon les méthodes traditionnelles françaises
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48 w-full">
-                <Image 
-                  src="/images/525481923_17978152610897027_8075486966893642693_n.jpg"
-                  alt="Viennoiseries artisanales"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🥐</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Viennoiseries</h3>
-                <p className="text-gray-600">Croissants, pains au chocolat et autres délices préparés chaque matin</p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="relative h-48 w-full">
-                <Image 
-                  src="/images/557538420_17985499265897027_621639666258727636_n.jpg"
-                  alt="Pâtisseries maison"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-6">
-                <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🎂</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Pâtisseries</h3>
-                <p className="text-gray-600">
-                  Des créations sucrées qui raviront vos papilles et égayeront vos événements
-                </p>
-              </CardContent>
-            </Card>
+            <Button asChild variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white hover:cursor-pointer">
+              <Link href="/histoire">Découvrir notre histoire</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -133,7 +76,7 @@ export default function HomePage() {
             <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
               <div className="relative h-64 w-full">
                 <Image 
-                  src="/images/545241540_17983109474897027_4359208589275347731_n.jpg"
+                  src="/images/image_9.jpg"
                   alt="Spécialité du jour"
                   fill
                   className="object-cover"
@@ -147,7 +90,7 @@ export default function HomePage() {
             <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
               <div className="relative h-64 w-full">
                 <Image 
-                  src="/images/573046755_17989741748897027_3378583018265798393_n.jpg"
+                  src="/images/image_57.jpg"
                   alt="Pain artisanal"
                   fill
                   className="object-cover"
@@ -195,70 +138,86 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Gallery Preview Section */}
+      {/* Contact & Opening Hours Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Galerie Photos</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nous Contacter</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Explorez notre univers à travers une sélection de nos plus belles créations
+              Venez nous rendre visite au Domaine de Marolles
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
-              <Link href="/gallery">
-                <div className="relative h-80 w-full">
-                  <Image 
-                    src="/images/image_9.jpg"
-                    alt="Galerie - Créations artisanales"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Address */}
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-amber-100 rounded-full">
+                  <MapPin className="h-6 w-6 text-amber-600" />
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-center">Nos Créations</h3>
-                </CardContent>
-              </Link>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Adresse</h3>
+                  <p className="text-gray-600">
+                    Le Domaine de Marolles<br />
+                    28320 GAS
+                  </p>
+                </div>
+              </div>
             </Card>
 
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
-              <Link href="/gallery">
-                <div className="relative h-80 w-full">
-                  <Image 
-                    src="/images/image_51.jpg"
-                    alt="Galerie - Viennoiseries"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+            {/* Opening Hours */}
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-amber-100 rounded-full">
+                  <Clock className="h-6 w-6 text-amber-600" />
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-center">Viennoiseries</h3>
-                </CardContent>
-              </Link>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
-              <Link href="/gallery">
-                <div className="relative h-80 w-full">
-                  <Image 
-                    src="/images/image_52.jpg"
-                    alt="Galerie - Pâtisseries"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Horaires d&apos;ouverture</h3>
+                  <div className="text-gray-600 space-y-1">
+                    <p className="flex items-center gap-2">
+                      <span className="font-medium">Samedi :</span>
+                      <span>8h00-12h30 / 15h30-18h00</span>
+                      <span>☀️</span>
+                    </p>
+                    <p className="flex items-center gap-2">
+                      <span className="font-medium">Dimanche :</span>
+                      <span>8h00-12h30</span>
+                      <span>☀️</span>
+                    </p>
+                  </div>
                 </div>
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-center">Pâtisseries</h3>
-                </CardContent>
-              </Link>
+              </div>
             </Card>
           </div>
 
-          <div className="text-center">
-            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
-              <Link href="/gallery">Voir toute la galerie</Link>
-            </Button>
+          {/* Special Features */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Wheat className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  🌾 Farine de la ferme écrasé sur meule de pierre
+                </p>
+              </div>
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Croissant className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  🥖 Pain au levain naturel
+                </p>
+              </div>
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Cake className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  🍰 Pâtisseries de saison
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -159,9 +159,14 @@ export default function HistoirePage() {
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center text-balance">
                 Notre Passion en Images
               </h2>
-              <p className="text-center text-gray-600 mb-8 break-words">
+              <p className="text-center text-gray-600 mb-4 break-words">
                 Découvrez l&apos;univers de Maison L&apos;Orayane à travers notre galerie
               </p>
+              <div className="text-center mb-8">
+                <Button asChild variant="outline" className="hover:cursor-pointer">
+                  <Link href="/gallery">Voir la galerie complète</Link>
+                </Button>
+              </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {galleryImages.map((image, index) => (
                   <div key={index} className="relative aspect-square overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow">
