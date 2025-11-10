@@ -14,23 +14,29 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-amber-50 to-orange-100">
         <div className="absolute inset-0">
-          <Image src="/images/banner.jpg" alt="Boulangerie Maison L'Orayane" fill className="object-cover" priority />
+          <Image 
+            src="/images/515283011_728213573482694_1000083559690009543_n(1).jpg" 
+            alt="Boulangerie Maison L'Orayane - Pains artisanaux fraîchement cuits" 
+            fill 
+            className="object-cover brightness-75" 
+            priority 
+          />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-          <div className="text-white">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4">Maison L&apos;Orayane</h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-2xl">
+          <div className="text-white drop-shadow-lg">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-md">Maison L&apos;Orayane</h1>
+            <p className="text-xl md:text-2xl mb-8 max-w-2xl drop-shadow-md">
               L&apos;art de la boulangerie française traditionnelle depuis des générations
             </p>
             <div className="space-x-4">
-              <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+              <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer shadow-lg">
                 <Link href="/boutique">Découvrir nos produits</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="text-amber-600 bg-white hover:cursor-pointer hover:bg-amber-600 hover:text-white hover:border-amber-600"
+                className="text-white bg-white/20 backdrop-blur-sm hover:cursor-pointer hover:bg-amber-600 hover:text-white border-white hover:border-amber-600"
               >
                 <Link href="/histoire">Notre histoire</Link>
               </Button>
@@ -52,7 +58,15 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center">
+            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48 w-full">
+                <Image 
+                  src="/images/468098791_17948876597897027_4144459834020110199_n.jpg"
+                  alt="Pains artisanaux"
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🥖</span>
@@ -64,7 +78,15 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48 w-full">
+                <Image 
+                  src="/images/525481923_17978152610897027_8075486966893642693_n.jpg"
+                  alt="Viennoiseries artisanales"
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🥐</span>
@@ -74,7 +96,15 @@ export default function HomePage() {
               </CardContent>
             </Card>
 
-            <Card className="text-center">
+            <Card className="text-center overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="relative h-48 w-full">
+                <Image 
+                  src="/images/557538420_17985499265897027_621639666258727636_n.jpg"
+                  alt="Pâtisseries maison"
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <CardContent className="p-6">
                 <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-2xl">🎂</span>
@@ -85,6 +115,82 @@ export default function HomePage() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nos Créations du Moment</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez notre sélection de produits artisanaux, préparés chaque jour avec passion et savoir-faire
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="relative h-64 w-full">
+                <Image 
+                  src="/images/545241540_17983109474897027_4359208589275347731_n.jpg"
+                  alt="Spécialité du jour"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-center">Spécialités Quotidiennes</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="relative h-64 w-full">
+                <Image 
+                  src="/images/573046755_17989741748897027_3378583018265798393_n.jpg"
+                  alt="Pain artisanal"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-center">Pains Tradition</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="relative h-64 w-full">
+                <Image 
+                  src="/images/503066281_17971591739897027_4167429648620474630_n.jpg"
+                  alt="Produits de qualité"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-center">Pains Spéciaux</h3>
+              </CardContent>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+              <div className="relative h-64 w-full">
+                <Image 
+                  src="/images/504308245_17972860889897027_4246230941807376782_n.jpg"
+                  alt="Passion du pain"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-center">Créations Uniques</h3>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+              <Link href="/boutique">Voir tous nos produits</Link>
+            </Button>
           </div>
         </div>
       </section>
