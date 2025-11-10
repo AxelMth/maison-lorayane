@@ -7,7 +7,7 @@ export async function PATCH(request: Request, { params }: { params: { id: string
     const body = await request.json()
 
     const update: any = {}
-    const allowed = ['name', 'description', 'price', 'image_url', 'category', 'active', 'start_date', 'end_date']
+    const allowed = ['name', 'description', 'image_url', 'category', 'active', 'start_date', 'end_date']
     for (const key of allowed) {
       if (body[key] !== undefined) update[key] = body[key]
     }

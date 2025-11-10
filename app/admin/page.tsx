@@ -10,15 +10,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Plus, Edit, Trash2, Eye, Package, ShoppingCart, Loader2, EyeOff } from 'lucide-react'
+import { Plus, Edit, Trash2, Eye, Package, Loader2, EyeOff } from 'lucide-react'
 
 interface Product {
   id: string
   name: string
   description: string
-  price: number
   image: string
   category: string
   active: boolean
@@ -26,21 +24,10 @@ interface Product {
   endDate: string
 }
 
-interface Order {
-  id: string
-  customerName: string
-  customerEmail: string
-  items: { productId: string; productName: string; quantity: number; price: number }[]
-  total: number
-  status: string
-  date: string
-}
-
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [products, setProducts] = useState<Product[]>([])
-  const [orders, setOrders] = useState<Order[]>([])
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
@@ -53,7 +40,6 @@ export default function AdminPage() {
   const [newProduct, setNewProduct] = useState({
     name: '',
     description: '',
-    price: 0,
     category: '',
     startDate: '',
     endDate: '',
@@ -70,20 +56,15 @@ export default function AdminPage() {
     const load = async () => {
       setIsLoading(true)
       try {
-        const [prodRes, ordRes] = await Promise.all([
-          fetch('/api/products?all=1', { cache: 'no-store' }),
-          fetch('/api/orders', { cache: 'no-store' }),
-        ])
+        const prodRes = await fetch('/api/products?all=1', { cache: 'no-store' })
         if (!prodRes.ok) throw new Error('Produits: échec du chargement')
-        if (!ordRes.ok) throw new Error('Commandes: échec du chargement')
 
-        const [prodData, ordData] = await Promise.all([prodRes.json(), ordRes.json()])
+        const prodData = await prodRes.json()
 
         const mappedProducts: Product[] = (prodData || []).map((p: any) => ({
           id: p.id,
           name: p.name,
           description: p.description || '',
-          price: typeof p.price === 'string' ? parseFloat(p.price) : p.price,
           image: p.image_url || '/placeholder.svg',
           category: p.category,
           active: !!p.active,
@@ -91,23 +72,7 @@ export default function AdminPage() {
           endDate: p.end_date || '',
         }))
 
-        const mappedOrders: Order[] = (ordData || []).map((o: any) => ({
-          id: o.id,
-          customerName: o.customer_name,
-          customerEmail: o.customer_email,
-          items: (o.order_items || []).map((oi: any) => ({
-            productId: oi.product_id || '',
-            productName: oi.product_name,
-            quantity: oi.quantity,
-            price: typeof oi.product_price === 'string' ? parseFloat(oi.product_price) : oi.product_price,
-          })),
-          total: typeof o.total_amount === 'string' ? parseFloat(o.total_amount) : o.total_amount,
-          status: o.status,
-          date: o.created_at ? new Date(o.created_at).toISOString().split('T')[0] : '',
-        }))
-
         setProducts(mappedProducts)
-        setOrders(mappedOrders)
       } catch (e) {
         console.error(e)
       } finally {
@@ -133,7 +98,6 @@ export default function AdminPage() {
         body: JSON.stringify({
           name: newProduct.name,
           description: newProduct.description,
-          price: newProduct.price,
           category: newProduct.category,
           start_date: newProduct.startDate,
           end_date: newProduct.endDate,
@@ -146,7 +110,6 @@ export default function AdminPage() {
         id: created.id,
         name: created.name,
         description: created.description || '',
-        price: typeof created.price === 'string' ? parseFloat(created.price) : created.price,
         image: created.image_url || '/placeholder.svg',
         category: created.category,
         active: !!created.active,
@@ -154,7 +117,7 @@ export default function AdminPage() {
         endDate: created.end_date || '',
       }
       setProducts(prev => [...prev, mapped])
-      setNewProduct({ name: '', description: '', price: 0, category: '', startDate: '', endDate: '' })
+      setNewProduct({ name: '', description: '', category: '', startDate: '', endDate: '' })
       if (newImagePreview) URL.revokeObjectURL(newImagePreview)
       setNewImageFile(null)
       setNewImagePreview(null)
@@ -183,7 +146,6 @@ export default function AdminPage() {
         body: JSON.stringify({
           name: editingProduct.name,
           description: editingProduct.description,
-          price: editingProduct.price,
           category: editingProduct.category,
           start_date: editingProduct.startDate,
           end_date: editingProduct.endDate,
@@ -197,7 +159,6 @@ export default function AdminPage() {
         id: updated.id,
         name: updated.name,
         description: updated.description || '',
-        price: typeof updated.price === 'string' ? parseFloat(updated.price) : updated.price,
         image: updated.image_url || '/placeholder.svg',
         category: updated.category,
         active: !!updated.active,
@@ -302,27 +263,6 @@ export default function AdminPage() {
     )
   }
 
-  const mapOrderStatus = (status: string) => {
-    switch (status) {
-      case 'pending':
-        return 'En attente'
-      case 'paid':
-        return 'Payé'
-      default:
-        return status
-    }
-  }
-
-  const mapOrderStatusColor = (status: string): string => {
-    switch (status) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'paid':
-        return 'bg-green-100 text-green-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -355,11 +295,11 @@ export default function AdminPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Tableau de bord</h1>
-          <p className="text-gray-600">Gérez vos produits et commandes</p>
+          <p className="text-gray-600">Gérez vos produits</p>
         </div>
 
         {/* Statistiques */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
@@ -375,31 +315,7 @@ export default function AdminPage() {
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center">
-                <ShoppingCart className="h-8 w-8 text-green-600 hover:cursor-pointer" />
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Commandes</p>
-                  <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">Chiffre d&apos;affaires</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {orders.reduce((sum, order) => sum + order.total, 0).toFixed(2)} €
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center">
+                <Package className="h-8 w-8 text-gray-600" />
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">Produits inactifs</p>
                   <p className="text-2xl font-bold text-gray-900">{products.filter(p => !p.active).length}</p>
@@ -407,17 +323,23 @@ export default function AdminPage() {
               </div>
             </CardContent>
           </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center">
+                <Package className="h-8 w-8 text-blue-600" />
+                <div className="ml-4">
+                  <p className="text-sm font-medium text-gray-600">Total produits</p>
+                  <p className="text-2xl font-bold text-gray-900">{products.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
-        <Tabs defaultValue="products" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="products">Produits</TabsTrigger>
-            <TabsTrigger value="orders">Commandes</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="products" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Gestion des produits</h2>
+        <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-bold">Gestion des produits</h2>
               <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
                 <DialogTrigger asChild>
                   <Button className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer text-white hover:cursor-pointer">
@@ -430,25 +352,13 @@ export default function AdminPage() {
                     <DialogTitle>Ajouter un nouveau produit</DialogTitle>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Nom du produit</Label>
-                        <Input
-                          id="name"
-                          value={newProduct.name}
-                          onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="price">Prix (€)</Label>
-                        <Input
-                          id="price"
-                          type="number"
-                          step="0.01"
-                          value={newProduct.price}
-                          onChange={e => setNewProduct({ ...newProduct, price: Number.parseFloat(e.target.value) })}
-                        />
-                      </div>
+                    <div>
+                      <Label htmlFor="name">Nom du produit</Label>
+                      <Input
+                        id="name"
+                        value={newProduct.name}
+                        onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="description">Description</Label>
@@ -556,27 +466,13 @@ export default function AdminPage() {
                   </DialogHeader>
                   {editingProduct && (
                     <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="edit-name">Nom du produit</Label>
-                          <Input
-                            id="edit-name"
-                            value={editingProduct.name}
-                            onChange={e => setEditingProduct({ ...editingProduct, name: e.target.value })}
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="edit-price">Prix (€)</Label>
-                          <Input
-                            id="edit-price"
-                            type="number"
-                            step="0.01"
-                            value={editingProduct.price}
-                            onChange={e =>
-                              setEditingProduct({ ...editingProduct, price: Number.parseFloat(e.target.value) || 0 })
-                            }
-                          />
-                        </div>
+                      <div>
+                        <Label htmlFor="edit-name">Nom du produit</Label>
+                        <Input
+                          id="edit-name"
+                          value={editingProduct.name}
+                          onChange={e => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                        />
                       </div>
                       <div>
                         <Label htmlFor="edit-description">Description</Label>
@@ -676,7 +572,6 @@ export default function AdminPage() {
                                 {product.active ? 'Actif' : 'Inactif'}
                               </Badge>
                               <Badge variant="outline">{product.category}</Badge>
-                              <span className="text-lg font-bold text-amber-600">{product.price.toFixed(2)} €</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">
                               Disponible du {product.startDate} au {product.endDate}
@@ -727,50 +622,8 @@ export default function AdminPage() {
                   </Card>
                 ))
               )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="orders" className="space-y-6">
-            <h2 className="text-2xl font-bold">Gestion des commandes</h2>
-
-            <div className="grid gap-4">
-              {orders.map(order => (
-                <Card key={order.id}>
-                  <CardContent className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="text-lg font-semibold">Commande #{order.id}</h3>
-                        <p className="text-gray-600">
-                          {order.customerName} - {order.customerEmail}
-                        </p>
-                        <p className="text-sm text-gray-500">Date: {order.date}</p>
-                        <div className="mt-2">
-                          <Badge className={mapOrderStatusColor(order.status)}>{mapOrderStatus(order.status)}</Badge>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-amber-600">{order.total.toFixed(2)} €</p>
-                      </div>
-                    </div>
-                    <div className="mt-4">
-                      <h4 className="font-medium mb-2">Articles commandés:</h4>
-                      <div className="space-y-1">
-                        {order.items.map((item, index) => (
-                          <div key={index} className="flex justify-between text-sm">
-                            <span>
-                              {item.productName} x{item.quantity}
-                            </span>
-                            <span>{(item.price * item.quantity).toFixed(2)} €</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+          </div>
+        </div>
       </div>
     </div>
   )

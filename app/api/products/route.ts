@@ -52,7 +52,6 @@ export async function POST(request: Request) {
         {
           name: body.name,
           description: body.description,
-          price: body.price,
           image_url: body.image_url || '/placeholder.svg?height=200&width=300',
           category: body.category,
           active: true,
