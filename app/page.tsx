@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import Nav from '@/components/nav'
-import { Facebook, Instagram, MapPin, Clock, Wheat, Croissant, Cake } from 'lucide-react'
+import { Facebook, Instagram, MapPin, Clock, Wheat, Croissant, Cake, Mail, Navigation } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -148,7 +148,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Address */}
             <Card className="p-6">
               <div className="flex items-start gap-4">
@@ -188,6 +188,42 @@ export default function HomePage() {
                 </div>
               </div>
             </Card>
+
+            {/* Email */}
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="p-3 bg-amber-100 rounded-full">
+                  <Mail className="h-6 w-6 text-amber-600" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Contact</h3>
+                  <a 
+                    href="mailto:maisonlorayane@gmail.com" 
+                    className="text-amber-600 hover:text-amber-700 hover:underline"
+                  >
+                    maisonlorayane@gmail.com
+                  </a>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {/* Find Us Button */}
+          <div className="text-center mt-8">
+            <Button 
+              asChild 
+              size="lg" 
+              className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer"
+            >
+              <Link 
+                href="https://maps.app.goo.gl/KZw8jNyrm5LWWqwH6"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Navigation className="mr-2 h-5 w-5" />
+                Nous trouver
+              </Link>
+            </Button>
           </div>
 
           {/* Special Features */}
