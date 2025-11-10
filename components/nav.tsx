@@ -35,6 +35,9 @@ export default function Nav() {
               <Link href="/boutique" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
                 Boutique
               </Link>
+              <Link href="/gallery" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                Galerie
+              </Link>
             </div>
             <div className="ml-6 flex items-center space-x-3 gap-4">
               <Link
@@ -121,6 +124,13 @@ export default function Nav() {
                 onClick={() => setOpen(false)}
               >
                 Boutique
+              </Link>
+              <Link
+                href="/gallery"
+                className="block px-3 py-2 rounded-md text-base font-medium hover:opacity-90"
+                onClick={() => setOpen(false)}
+              >
+                Galerie
               </Link>
             </div>
             <div className="mt-3 px-3 flex justify-end space-x-4">

@@ -195,6 +195,74 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Gallery Preview Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Galerie Photos</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explorez notre univers à travers une sélection de nos plus belles créations
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
+              <Link href="/gallery">
+                <div className="relative h-80 w-full">
+                  <Image 
+                    src="/images/image_9.jpg"
+                    alt="Galerie - Créations artisanales"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-center">Nos Créations</h3>
+                </CardContent>
+              </Link>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
+              <Link href="/gallery">
+                <div className="relative h-80 w-full">
+                  <Image 
+                    src="/images/image_51.jpg"
+                    alt="Galerie - Viennoiseries"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-center">Viennoiseries</h3>
+                </CardContent>
+              </Link>
+            </Card>
+
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 group cursor-pointer">
+              <Link href="/gallery">
+                <div className="relative h-80 w-full">
+                  <Image 
+                    src="/images/image_52.jpg"
+                    alt="Galerie - Pâtisseries"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="font-semibold text-center">Pâtisseries</h3>
+                </CardContent>
+              </Link>
+            </Card>
+          </div>
+
+          <div className="text-center">
+            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+              <Link href="/gallery">Voir toute la galerie</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-amber-800 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
