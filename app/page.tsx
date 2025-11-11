@@ -30,7 +30,7 @@ export default function HomePage() {
             </p>
             <div className="space-x-4">
               <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer shadow-lg">
-                <Link href="/boutique">Découvrir nos produits</Link>
+                <Link href="/products">Découvrir nos produits</Link>
               </Button>
               <Button
                 asChild
@@ -101,7 +101,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
-              <Link href="/boutique">Voir tous nos produits</Link>
+              <Link href="/products">Voir tous nos produits</Link>
             </Button>
           </div>
         </div>

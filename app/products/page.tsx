@@ -16,7 +16,7 @@ interface Product {
   active: boolean
 }
 
-export default function BoutiquePage() {
+export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('Tous')
   const [loading, setLoading] = useState(true)
@@ -61,7 +61,7 @@ export default function BoutiquePage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Notre Boutique</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Nos produits</h1>
           <p className="text-xl text-gray-600">Découvrez nos produits artisanaux préparés avec passion</p>
         </div>
 

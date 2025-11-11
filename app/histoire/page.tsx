@@ -222,7 +222,7 @@ export default function HistoirePage() {
 
         <div className="text-center mt-12">
           <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
-            <Link href="/boutique">Découvrir nos produits</Link>
+            <Link href="/products">Découvrir nos produits</Link>
           </Button>
         </div>
       </div>

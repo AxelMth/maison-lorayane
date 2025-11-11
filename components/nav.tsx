@@ -32,8 +32,8 @@ export default function Nav() {
               <Link href="/histoire" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
                 Notre Histoire
               </Link>
-              <Link href="/boutique" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
-                Boutique
+              <Link href="/products" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
+                Produits
               </Link>
               <Link href="/gallery" className="px-3 py-2 rounded-md text-sm font-medium hover:opacity-90">
                 Galerie
@@ -119,11 +119,11 @@ export default function Nav() {
                 Notre Histoire
               </Link>
               <Link
-                href="/boutique"
+                href="/products"
                 className="block px-3 py-2 rounded-md text-base font-medium hover:opacity-90"
                 onClick={() => setOpen(false)}
               >
-                Boutique
+                Produits
               </Link>
               <Link
                 href="/gallery"
