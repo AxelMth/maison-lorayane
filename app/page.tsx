@@ -50,11 +50,34 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L&apos;Orayane</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
-              Depuis plusieurs générations, notre famille perpétue la tradition de la boulangerie française. Chaque
-              jour, nous préparons avec passion des pains et pâtisseries artisanales, en utilisant uniquement les
-              meilleurs ingrédients et les techniques ancestrales.
-            </p>
+
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Wheat className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  Farine de la ferme écrasé sur meule de pierre
+                </p>
+              </div>
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Croissant className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  Pain au levain naturel
+                </p>
+              </div>
+              <div className="text-center p-6 bg-amber-50 rounded-lg">
+                <div className="flex justify-center mb-3">
+                  <Cake className="h-8 w-8 text-amber-600" />
+                </div>
+                <p className="text-gray-700 font-medium">
+                  Pâtisseries de saison
+                </p>
+              </div>
+            </div>
+
             <Button asChild variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white hover:cursor-pointer">
               <Link href="/histoire">Découvrir notre histoire</Link>
             </Button>
@@ -98,20 +121,6 @@ export default function HomePage() {
               </div>
               <CardContent className="p-4">
                 <h3 className="font-semibold text-center">Pains Tradition</h3>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-64 w-full">
-                <Image 
-                  src="/images/503066281_17971591739897027_4167429648620474630_n.jpg"
-                  alt="Produits de qualité"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-center">Pains Spéciaux</h3>
               </CardContent>
             </Card>
 
@@ -177,12 +186,10 @@ export default function HomePage() {
                     <p className="flex items-center gap-2">
                       <span className="font-medium">Samedi :</span>
                       <span>8h00-12h30 / 15h30-18h00</span>
-                      <span>☀️</span>
                     </p>
                     <p className="flex items-center gap-2">
                       <span className="font-medium">Dimanche :</span>
                       <span>8h00-12h30</span>
-                      <span>☀️</span>
                     </p>
                   </div>
                 </div>
@@ -224,36 +231,6 @@ export default function HomePage() {
                 Nous trouver
               </Link>
             </Button>
-          </div>
-
-          {/* Special Features */}
-          <div className="mt-12 max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Wheat className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  🌾 Farine de la ferme écrasé sur meule de pierre
-                </p>
-              </div>
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Croissant className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  🥖 Pain au levain naturel
-                </p>
-              </div>
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Cake className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  🍰 Pâtisseries de saison
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

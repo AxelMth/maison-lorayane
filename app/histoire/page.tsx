@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import Nav from '@/components/nav'
+import { Cake, Croissant, Wheat } from 'lucide-react'
 
 export default function HistoirePage() {
   const galleryImages = [
@@ -12,8 +13,8 @@ export default function HistoirePage() {
     { src: '/images/557538420_17985499265897027_621639666258727636_n.jpg', alt: 'Pâtisseries maison' },
     { src: '/images/545241540_17983109474897027_4359208589275347731_n.jpg', alt: 'Spécialités du jour' },
     { src: '/images/573046755_17989741748897027_3378583018265798393_n.jpg', alt: 'Savoir-faire artisanal' },
-    { src: '/images/503066281_17971591739897027_4167429648620474630_n.jpg', alt: 'Produits de qualité' },
     { src: '/images/504308245_17972860889897027_4246230941807376782_n.jpg', alt: 'Notre passion du pain' },
+    { src: '/images/496009189_17968750289897027_4541325153468900542_n.jpg', alt: 'Produits de qualité' },
   ]
 
   return (
@@ -183,56 +184,37 @@ export default function HistoirePage() {
             </CardContent>
           </Card>
 
-          {/* Valeurs */}
-          <Card>
-            <CardContent className="p-6 sm:p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center text-balance">Nos Valeurs</h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">🌾</span>
-                  </div>
-                  <h3 className="font-semibold mb-2">Qualité Artisanale</h3>
-                  <p className="text-gray-600 text-sm break-words">
-                    Sélection rigoureuse des meilleures farines et ingrédients naturels pour des produits 
-                    d&apos;exception
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">👨‍🍳</span>
-                  </div>
-                  <h3 className="font-semibold mb-2">Tradition Familiale</h3>
-                  <p className="text-gray-600 text-sm break-words">
-                    Un savoir-faire authentique transmis de génération en génération avec passion et respect
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl">❤️</span>
-                  </div>
-                  <h3 className="font-semibold mb-2">Passion du Métier</h3>
-                  <p className="text-gray-600 text-sm break-words">
-                    L&apos;amour du pain et de la boulangerie dans chaque création, chaque jour
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Notre engagement */}
           <Card className="bg-amber-50 border-amber-200">
             <CardContent className="p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center text-balance">Notre Engagement</h2>
               <div className="max-w-3xl mx-auto">
-                <p className="text-gray-700 mb-4 break-words text-center">
-                  Maison L&apos;Orayane s&apos;engage à perpétuer la tradition boulangère française en proposant 
-                  des produits 100% artisanaux, fabriqués sur place avec des ingrédients de première qualité.
-                </p>
-                <p className="text-gray-700 break-words text-center">
-                  Nous nous levons chaque jour avec la même passion : celle de vous offrir le meilleur du pain français, 
-                  fait avec cœur et savoir-faire.
-                </p>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className="text-center p-6 bg-amber-50 rounded-lg">
+                    <div className="flex justify-center mb-3">
+                      <Wheat className="h-8 w-8 text-amber-600" />
+                    </div>
+                    <p className="text-gray-700 font-medium">
+                      Farine de la ferme écrasé sur meule de pierre
+                    </p>
+                  </div>
+                  <div className="text-center p-6 bg-amber-50 rounded-lg">
+                    <div className="flex justify-center mb-3">
+                      <Croissant className="h-8 w-8 text-amber-600" />
+                    </div>
+                    <p className="text-gray-700 font-medium">
+                      Pain au levain naturel
+                    </p>
+                  </div>
+                    <div className="text-center p-6 bg-amber-50 rounded-lg">
+                    <div className="flex justify-center mb-3">
+                      <Cake className="h-8 w-8 text-amber-600" />
+                    </div>
+                    <p className="text-gray-700 font-medium">
+                      Pâtisseries de saison
+                    </p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
