@@ -103,7 +103,7 @@ export default function BoutiquePage() {
             {filteredProducts.map(product => (
               <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col h-full">
                 <div className="aspect-video relative">
-                  <Image src={product.image || '/placeholder.svg'} alt={product.name} fill className="object-cover" />
+                  <Image src={'/images/placeholder.png?height=200&width=300'} alt={product.name} fill className="object-cover" />
                   <Badge className="absolute top-2 right-2 bg-amber-600 text-white">{product.category}</Badge>
                 </div>
                 <CardContent className="p-4 flex-1">

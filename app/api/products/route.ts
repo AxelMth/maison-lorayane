@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
+import { query } from '@/lib/db'
 
 export async function GET(request: Request) {
   try {
@@ -7,35 +7,22 @@ export async function GET(request: Request) {
     const all = url.searchParams.get('all')
 
     if (all) {
-      const { data: products, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('category', { ascending: true })
-        .order('name', { ascending: true })
-
-      if (error) {
-        console.error('Erreur lors de la récupération des produits:', error)
-        return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
-      }
-
-      return NextResponse.json(products)
+      const { rows } = await query(
+        `SELECT * FROM products
+         ORDER BY category ASC, name ASC`
+      )
+      return NextResponse.json(rows)
     }
 
-    const { data: products, error } = await supabase
-      .from('products')
-      .select('*')
-      .eq('active', true)
-      .gte('end_date', new Date().toISOString().split('T')[0])
-      .lte('start_date', new Date().toISOString().split('T')[0])
-      .order('category', { ascending: true })
-      .order('name', { ascending: true })
+    const { rows } = await query(
+      `SELECT * FROM products
+       WHERE active = TRUE
+         AND end_date >= CURRENT_DATE
+         AND start_date <= CURRENT_DATE
+       ORDER BY category ASC, name ASC`
+    )
 
-    if (error) {
-      console.error('Erreur lors de la récupération des produits:', error)
-      return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
-    }
-
-    return NextResponse.json(products)
+    return NextResponse.json(rows)
   } catch (error) {
     console.error('Erreur:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
@@ -46,28 +33,31 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
 
-    const { data: product, error } = await supabase
-      .from('products')
-      .insert([
-        {
-          name: body.name,
-          description: body.description,
-          image_url: body.image_url || '/placeholder.svg?height=200&width=300',
-          category: body.category,
-          active: true,
-          start_date: body.start_date,
-          end_date: body.end_date,
-        },
-      ])
-      .select()
-      .single()
+    const {
+      name,
+      description,
+      image_url,
+      category,
+      start_date,
+      end_date,
+    } = body || {}
 
-    if (error) {
-      console.error('Erreur lors de la création du produit:', error)
-      return NextResponse.json({ error: 'Erreur lors de la création' }, { status: 500 })
-    }
+    const { rows } = await query(
+      `INSERT INTO products
+        (name, description, image_url, category, active, start_date, end_date)
+       VALUES ($1, $2, $3, $4, $5, TRUE, $6, $7)
+       RETURNING *`,
+      [
+        name,
+        description ?? null,
+        image_url || '/placeholder.svg?height=200&width=300',
+        category,
+        start_date ?? null,
+        end_date ?? null,
+      ]
+    )
 
-    return NextResponse.json(product)
+    return NextResponse.json(rows[0])
   } catch (error) {
     console.error('Erreur:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })

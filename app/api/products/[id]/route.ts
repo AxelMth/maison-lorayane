@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
+import { query } from '@/lib/db'
 
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   try {
@@ -12,13 +12,30 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       if (body[key] !== undefined) update[key] = body[key]
     }
 
-    const { data, error } = await supabase.from('products').update(update).eq('id', id).select().single()
-    if (error) {
-      console.error('Erreur lors de la mise à jour du produit:', error)
-      return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 500 })
+    if (Object.keys(update).length === 0) {
+      return NextResponse.json({ error: 'Aucun champ à mettre à jour' }, { status: 400 })
     }
 
-    return NextResponse.json(data)
+    const setClauses: string[] = []
+    const values: any[] = []
+    let idx = 1
+    for (const [key, value] of Object.entries(update)) {
+      setClauses.push(`${key} = $${idx++}`)
+      values.push(value)
+    }
+    // Always bump updated_at if the column exists
+    setClauses.push(`updated_at = NOW()`)
+    values.push(id)
+
+    const { rows } = await query(
+      `UPDATE products
+         SET ${setClauses.join(', ')}
+       WHERE id = $${values.length}
+       RETURNING *`,
+      values
+    )
+
+    return NextResponse.json(rows[0])
   } catch (error) {
     console.error('Erreur:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
@@ -28,12 +45,8 @@ export async function PATCH(request: Request, { params }: { params: { id: string
 export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
     const id = params.id
-    const { error } = await supabase.from('products').delete().eq('id', id)
 
-    if (error) {
-      console.error('Erreur lors de la suppression du produit:', error)
-      return NextResponse.json({ error: 'Erreur lors de la suppression' }, { status: 500 })
-    }
+    await query(`DELETE FROM products WHERE id = $1`, [id])
 
     return NextResponse.json({ success: true })
   } catch (error) {
