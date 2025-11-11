@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin as supabase } from '@/lib/supabase-admin'
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +10,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Fichier manquant' }, { status: 400 })
     }
 
-    const BUCKET = 'product-images'
     const ext = file.name.split('.').pop() || 'jpg'
     const safe = baseName
       .trim()
@@ -21,18 +19,7 @@ export async function POST(request: Request) {
     const fileName = `${safe}-${Date.now()}.${ext}`
     const filePath = `products/${fileName}`
 
-    const { error } = await supabase.storage.from(BUCKET).upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: true,
-      contentType: file.type || 'application/octet-stream',
-    })
-    if (error) {
-      console.error('Upload error:', error)
-      return NextResponse.json({ error: 'Échec de l’upload' }, { status: 500 })
-    }
-
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(filePath)
-    return NextResponse.json({ publicUrl: data.publicUrl })
+    return NextResponse.json({ publicUrl: filePath })
   } catch (e) {
     console.error(e)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
