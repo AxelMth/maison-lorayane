@@ -9,7 +9,6 @@ const galleryImages = [
   { src: '/images/496009189_17968750289897027_4541325153468900542_n.jpg', alt: 'Produits de boulangerie' },
   { src: '/images/504308245_17972860889897027_4246230941807376782_n.jpg', alt: 'Créations artisanales' },
   { src: '/images/515283011_728213573482694_1000083559690009543_n(1).jpg', alt: 'Boulangerie Maison L\'Orayane' },
-  { src: '/images/515283011_728213573482694_1000083559690009543_n(2).jpg', alt: 'Pains et pâtisseries' },
   { src: '/images/545241540_17983109474897027_4359208589275347731_n.jpg', alt: 'Spécialités quotidiennes' },
   { src: '/images/557538420_17985499265897027_621639666258727636_n.jpg', alt: 'Pâtisseries maison' },
   { src: '/images/573046755_17989741748897027_3378583018265798393_n.jpg', alt: 'Pains tradition' },

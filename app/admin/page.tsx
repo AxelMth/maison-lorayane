@@ -66,7 +66,7 @@ export default function AdminPage() {
           id: p.id,
           name: p.name,
           description: p.description || '',
-          image: p.image_url || '/placeholder.png',
+          image: '/images' + p.image_url || '/images/placeholder.png',
           category: p.category,
           active: !!p.active,
           isFeatured: !!p.is_featured,
