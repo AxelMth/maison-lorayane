@@ -84,7 +84,7 @@ export default async function HomePage() {
                 <Card key={p.id} className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
                   <div className="relative h-48 sm:h-56 lg:h-64 w-full">
                     <Image
-                      src={'/images' + p.image_url || '/images/placeholder.png'}
+                      src={('/images' + p.image_url) || '/images/placeholder.png'}
                       alt={p.name}
                       fill
                       className="object-cover"

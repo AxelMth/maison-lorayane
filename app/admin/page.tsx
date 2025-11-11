@@ -32,6 +32,15 @@ export default function AdminPage() {
   const [isAddingProduct, setIsAddingProduct] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return ''
+    // If the date string includes time, extract just the date part
+    const dateOnly = dateString.split('T')[0]
+    // Format as DD/MM/YYYY for French locale
+    const [year, month, day] = dateOnly.split('-')
+    return `${day}/${month}/${year}`
+  }
+
   const [isLoading, setIsLoading] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -601,7 +610,7 @@ export default function AdminPage() {
                               <Badge variant="outline">{product.category}</Badge>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">
-                              Disponible du {product.startDate} au {product.endDate}
+                              Disponible du {formatDate(product.startDate)} au {formatDate(product.endDate)}
                             </p>
                           </div>
                         </div>
