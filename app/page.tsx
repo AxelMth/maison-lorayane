@@ -46,18 +46,18 @@ export default function HomePage() {
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-8 sm:py-12 lg:py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nos Créations du Moment</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Nos Créations du Moment</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
               Découvrez notre sélection de produits artisanaux, préparés chaque jour avec passion et savoir-faire
             </p>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-64 w-full">
+              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
                 <Image 
                   src="/images/image_9.jpg"
                   alt="Spécialité du jour"
@@ -65,13 +65,13 @@ export default function HomePage() {
                   className="object-cover"
                 />
               </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-center">Spécialités Quotidiennes</h3>
+              <CardContent className="p-4 sm:p-5">
+                <h3 className="font-semibold text-center text-sm sm:text-base">Spécialités Quotidiennes</h3>
               </CardContent>
             </Card>
 
             <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-64 w-full">
+              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
                 <Image 
                   src="/images/image_57.jpg"
                   alt="Pain artisanal"
@@ -79,13 +79,13 @@ export default function HomePage() {
                   className="object-cover"
                 />
               </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-center">Pains Tradition</h3>
+              <CardContent className="p-4 sm:p-5">
+                <h3 className="font-semibold text-center text-sm sm:text-base">Pains Tradition</h3>
               </CardContent>
             </Card>
 
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-64 w-full">
+            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 sm:col-span-2 lg:col-span-1">
+              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
                 <Image 
                   src="/images/504308245_17972860889897027_4246230941807376782_n.jpg"
                   alt="Passion du pain"
@@ -93,14 +93,14 @@ export default function HomePage() {
                   className="object-cover"
                 />
               </div>
-              <CardContent className="p-4">
-                <h3 className="font-semibold text-center">Créations Uniques</h3>
+              <CardContent className="p-4 sm:p-5">
+                <h3 className="font-semibold text-center text-sm sm:text-base">Créations Uniques</h3>
               </CardContent>
             </Card>
           </div>
 
-          <div className="text-center mt-12">
-            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer">
+          <div className="text-center mt-8 sm:mt-12">
+            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer w-full sm:w-auto">
               <Link href="/products">Voir tous nos produits</Link>
             </Button>
           </div>
@@ -108,25 +108,25 @@ export default function HomePage() {
       </section>
 
       {/* Contact & Opening Hours Section */}
-      <section className="py-16 bg-white">
+      <section className="py-8 sm:py-12 lg:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Nous Contacter</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Nous Contacter</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
               Venez nous rendre visite au Domaine de Marolles
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
             {/* Address */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-amber-100 rounded-full">
-                  <MapPin className="h-6 w-6 text-amber-600" />
+            <Card className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 bg-amber-100 rounded-full flex-shrink-0">
+                  <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Adresse</h3>
-                  <p className="text-gray-600">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Adresse</h3>
+                  <p className="text-sm sm:text-base text-gray-600">
                     Le Domaine de Marolles<br />
                     28320 GAS
                   </p>
@@ -135,19 +135,19 @@ export default function HomePage() {
             </Card>
 
             {/* Opening Hours */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-amber-100 rounded-full">
-                  <Clock className="h-6 w-6 text-amber-600" />
+            <Card className="p-4 sm:p-5 lg:p-6">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 bg-amber-100 rounded-full flex-shrink-0">
+                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Horaires d&apos;ouverture</h3>
-                  <div className="text-gray-600 space-y-1">
-                    <p className="flex items-center gap-2">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Horaires d&apos;ouverture</h3>
+                  <div className="text-sm sm:text-base text-gray-600 space-y-1">
+                    <p className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                       <span className="font-medium">Samedi :</span>
-                      <span>8h00-12h30 / 15h30-18h00</span>
+                      <span className="break-words">8h00-12h30 / 15h30-18h00</span>
                     </p>
-                    <p className="flex items-center gap-2">
+                    <p className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                       <span className="font-medium">Dimanche :</span>
                       <span>8h00-12h30</span>
                     </p>
@@ -157,16 +157,16 @@ export default function HomePage() {
             </Card>
 
             {/* Email */}
-            <Card className="p-6">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-amber-100 rounded-full">
-                  <Mail className="h-6 w-6 text-amber-600" />
+            <Card className="p-4 sm:p-5 lg:p-6 sm:col-span-2 lg:col-span-1">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 bg-amber-100 rounded-full flex-shrink-0">
+                  <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-amber-600" />
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Contact</h3>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">Contact</h3>
                   <a 
                     href="mailto:maisonlorayane@gmail.com" 
-                    className="text-amber-600 hover:text-amber-700 hover:underline"
+                    className="text-sm sm:text-base text-amber-600 hover:text-amber-700 hover:underline break-all"
                   >
                     maisonlorayane@gmail.com
                   </a>
@@ -176,11 +176,11 @@ export default function HomePage() {
           </div>
 
           {/* Find Us Button */}
-          <div className="text-center mt-8">
+          <div className="text-center mt-6 sm:mt-8">
             <Button 
               asChild 
               size="lg" 
-              className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer"
+              className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer w-full sm:w-auto"
             >
               <Link 
                 href="https://maps.app.goo.gl/KZw8jNyrm5LWWqwH6"
