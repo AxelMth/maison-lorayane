@@ -45,46 +45,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Introduction */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Bienvenue chez Maison L&apos;Orayane</h2>
-
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Wheat className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  Farine de la ferme écrasé sur meule de pierre
-                </p>
-              </div>
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Croissant className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  Pain au levain naturel
-                </p>
-              </div>
-              <div className="text-center p-6 bg-amber-50 rounded-lg">
-                <div className="flex justify-center mb-3">
-                  <Cake className="h-8 w-8 text-amber-600" />
-                </div>
-                <p className="text-gray-700 font-medium">
-                  Pâtisseries de saison
-                </p>
-              </div>
-            </div>
-
-            <Button asChild variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white hover:cursor-pointer">
-              <Link href="/histoire">Découvrir notre histoire</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
       {/* Featured Products Section */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
