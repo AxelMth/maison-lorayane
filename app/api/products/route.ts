@@ -5,6 +5,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
     const all = url.searchParams.get('all')
+    const featured = url.searchParams.get('featured')
 
     if (all) {
       const { rows } = await query(
@@ -14,11 +15,23 @@ export async function GET(request: Request) {
       return NextResponse.json(rows)
     }
 
+    if (featured) {
+      const { rows } = await query(
+        `SELECT * FROM products
+         WHERE active = TRUE
+           AND is_featured = TRUE
+           AND (start_date IS NULL OR start_date <= CURRENT_DATE)
+           AND (end_date IS NULL OR end_date >= CURRENT_DATE)
+         ORDER BY category ASC, name ASC`
+      )
+      return NextResponse.json(rows)
+    }
+
     const { rows } = await query(
       `SELECT * FROM products
        WHERE active = TRUE
-         AND end_date >= CURRENT_DATE
-         AND start_date <= CURRENT_DATE
+         AND (end_date IS NULL OR end_date >= CURRENT_DATE)
+         AND (start_date IS NULL OR start_date <= CURRENT_DATE)
        ORDER BY category ASC, name ASC`
     )
 
@@ -40,18 +53,20 @@ export async function POST(request: Request) {
       category,
       start_date,
       end_date,
+      is_featured,
     } = body || {}
 
     const { rows } = await query(
       `INSERT INTO products
-        (name, description, image_url, category, active, start_date, end_date)
-       VALUES ($1, $2, $3, $4, $5, TRUE, $6, $7)
+        (name, description, image_url, category, active, is_featured, start_date, end_date)
+       VALUES ($1, $2, $3, $4, TRUE, COALESCE($5, FALSE), $6, $7)
        RETURNING *`,
       [
         name,
         description ?? null,
         image_url || '/placeholder.svg?height=200&width=300',
         category,
+        is_featured ?? null,
         start_date ?? null,
         end_date ?? null,
       ]

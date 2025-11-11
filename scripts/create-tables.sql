@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS products (
     image_url TEXT,
     category VARCHAR(100) NOT NULL,
     active BOOLEAN DEFAULT true,
+    is_featured BOOLEAN DEFAULT false,
     start_date DATE,
     end_date DATE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -18,3 +19,4 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE INDEX IF NOT EXISTS idx_products_active ON products(active);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products(category);
 CREATE INDEX IF NOT EXISTS idx_products_dates ON products(start_date, end_date);
+CREATE INDEX IF NOT EXISTS idx_products_featured ON products(is_featured);

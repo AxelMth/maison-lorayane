@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Plus, Edit, Trash2, Eye, Package, Loader2, EyeOff } from 'lucide-react'
+import { Plus, Edit, Trash2, Eye, Package, Loader2, EyeOff, Star, StarOff } from 'lucide-react'
 
 interface Product {
   id: string
@@ -20,6 +20,7 @@ interface Product {
   image: string
   category: string
   active: boolean
+  isFeatured: boolean
   startDate: string
   endDate: string
 }
@@ -68,6 +69,7 @@ export default function AdminPage() {
           image: p.image_url || '/placeholder.png',
           category: p.category,
           active: !!p.active,
+          isFeatured: !!p.is_featured,
           startDate: p.start_date || '',
           endDate: p.end_date || '',
         }))
@@ -113,6 +115,7 @@ export default function AdminPage() {
         image: created.image_url || '/placeholder.svg',
         category: created.category,
         active: !!created.active,
+        isFeatured: !!created.is_featured,
         startDate: created.start_date || '',
         endDate: created.end_date || '',
       }
@@ -162,6 +165,7 @@ export default function AdminPage() {
         image: updated.image_url || '/placeholder.svg',
         category: updated.category,
         active: !!updated.active,
+        isFeatured: !!updated.is_featured,
         startDate: updated.start_date || '',
         endDate: updated.end_date || '',
       }
@@ -223,6 +227,28 @@ export default function AdminPage() {
       console.error(e)
       setProducts(products.map(p => (p.id === id ? { ...p, active: !nextActive } : p)))
       alert('Erreur lors de la mise à jour du statut')
+    } finally {
+      setTogglingId(null)
+    }
+  }
+
+  const toggleProductFeatured = async (id: string) => {
+    const current = products.find(p => p.id === id)
+    if (!current) return
+    const nextFeatured = !current.isFeatured
+    setProducts(products.map(p => (p.id === id ? { ...p, isFeatured: nextFeatured } : p)))
+    try {
+      setTogglingId(id)
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_featured: nextFeatured }),
+      })
+      if (!res.ok) throw new Error('Échec de la mise à jour du statut "à la une"')
+    } catch (e) {
+      console.error(e)
+      setProducts(products.map(p => (p.id === id ? { ...p, isFeatured: !nextFeatured } : p)))
+      alert('Erreur lors de la mise à jour du statut "à la une"')
     } finally {
       setTogglingId(null)
     }
@@ -571,6 +597,7 @@ export default function AdminPage() {
                               <Badge variant={product.active ? 'default' : 'secondary'}>
                                 {product.active ? 'Actif' : 'Inactif'}
                               </Badge>
+                              {product.isFeatured && <Badge variant="outline">À la une</Badge>}
                               <Badge variant="outline">{product.category}</Badge>
                             </div>
                             <p className="text-xs text-gray-500 mt-1">
@@ -579,6 +606,21 @@ export default function AdminPage() {
                           </div>
                         </div>
                         <div className="flex items-center space-x-2">
+                          <Button
+                            variant={product.isFeatured ? 'default' : 'outline'}
+                            size="sm"
+                            onClick={() => toggleProductFeatured(product.id)}
+                            disabled={togglingId === product.id || deletingId === product.id}
+                            className="hover:cursor-pointer hover:bg-amber-600 hover:text-white"
+                          >
+                            {togglingId === product.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : product.isFeatured ? (
+                              <Star className="h-4 w-4" />
+                            ) : (
+                              <StarOff className="h-4 w-4" />
+                            )}
+                          </Button>
                           <Button
                             variant="outline"
                             size="sm"

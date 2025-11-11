@@ -1,11 +1,34 @@
+"use client"
+
+import { Facebook, Instagram, MapPin, Clock, Mail, Navigation } from 'lucide-react'
+import { useState, useEffect } from 'react'
+
 import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import Nav from '@/components/nav'
-import { Facebook, Instagram, MapPin, Clock, Wheat, Croissant, Cake, Mail, Navigation } from 'lucide-react'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [featuredProducts, setFeaturedProducts] = useState<Array<{
+    id: string
+    name: string
+    description: string | null
+    image_url: string | null
+    category: string
+  }>>([])
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      const res = await fetch(`/api/products?featured=1`, {
+        cache: 'no-store',
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setFeaturedProducts(Array.isArray(data) ? data : [])
+      }
+    }
+    fetchFeaturedProducts()
+  }, [])
   return (
     <div className="min-h-screen">
       {/* Navigation */}
@@ -55,49 +78,29 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
-                <Image 
-                  src="/images/image_9.jpg"
-                  alt="Spécialité du jour"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-4 sm:p-5">
-                <h3 className="font-semibold text-center text-sm sm:text-base">Spécialités Quotidiennes</h3>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
-              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
-                <Image 
-                  src="/images/image_57.jpg"
-                  alt="Pain artisanal"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-4 sm:p-5">
-                <h3 className="font-semibold text-center text-sm sm:text-base">Pains Tradition</h3>
-              </CardContent>
-            </Card>
-
-            <Card className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 sm:col-span-2 lg:col-span-1">
-              <div className="relative h-48 sm:h-56 lg:h-64 w-full">
-                <Image 
-                  src="/images/504308245_17972860889897027_4246230941807376782_n.jpg"
-                  alt="Passion du pain"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <CardContent className="p-4 sm:p-5">
-                <h3 className="font-semibold text-center text-sm sm:text-base">Créations Uniques</h3>
-              </CardContent>
-            </Card>
-          </div>
+          {featuredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {featuredProducts.map(p => (
+                <Card key={p.id} className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1">
+                  <div className="relative h-48 sm:h-56 lg:h-64 w-full">
+                    <Image
+                      src={'/images' + p.image_url || '/images/placeholder.png'}
+                      alt={p.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <CardContent className="p-4 sm:p-5">
+                    <h3 className="font-semibold text-center text-sm sm:text-base">{p.name}</h3>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-600">
+              <p>Aucune création à la une pour le moment. Revenez bientôt !</p>
+            </div>
+          )}
 
           <div className="text-center mt-8 sm:mt-12">
             <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white hover:cursor-pointer w-full sm:w-auto">
